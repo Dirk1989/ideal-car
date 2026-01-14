@@ -1,0 +1,25 @@
+{
+  "siteName": "IdealCar",
+  "tagline": "Find Your Ideal Drive",
+  "logo": "/uploads/site-logo-1768238065606.jpg",
+  "heroImages": [
+    "/uploads/hero-1768243256340-0.jpg",
+    "/uploads/hero-1768243256340-1.jpg",
+    "/uploads/hero-1768243256340-2.jpg",
+    "/uploads/hero-1768243256340-3.jpg",
+    "/uploads/hero-1768243256340-4.jpg",
+    "/uploads/hero-1768243256340-5.jpg"
+  ],
+  "contact": {
+    "phone": "072 324 8098",
+    "email": "info@idealcar.co.za",
+    "address": "Wonderboom, Pretoria, 0182",
+    "whatsapp": "27723248098",
+    "businessName": "IdealBiz Pty Ltd"
+  },
+  "social": {
+    "facebook": "idealdealsza",
+    "instagram": "idealcarsa",
+    "twitter": "idealcarsa"
+  }
+}

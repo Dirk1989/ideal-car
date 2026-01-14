@@ -1,0 +1,257 @@
+[
+  {
+    "id": 1768228851616,
+    "title": "GWM",
+    "price": 100000,
+    "image": "/uploads/1768228851616-0.jpeg",
+    "images": [
+      "/uploads/1768228851616-0.jpeg",
+      "/uploads/1768228851616-1.jpeg",
+      "/uploads/1768228851616-2.jpeg"
+    ],
+    "year": 2015,
+    "mileage": 800000,
+    "fuelType": "Diesel",
+    "transmission": "Manual",
+    "color": "blue",
+    "features": [
+      "BAkkie",
+      "Wiele",
+      "en goed"
+    ],
+    "location": "Pretoria",
+    "isFeatured": false,
+    "status": "active",
+    "views": 0,
+    "dealerId": 1768228787999,
+    "createdAt": "2026-01-12T14:40:51.623Z"
+  },
+  {
+    "id": 1768226353917,
+    "title": "Test Transfer Vehicle",
+    "price": 100000,
+    "image": "",
+    "images": [],
+    "year": 2023,
+    "mileage": 20000,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "color": "",
+    "features": [],
+    "location": "Sandton",
+    "isFeatured": false,
+    "status": "active",
+    "views": 0,
+    "dealerId": 1768225295638,
+    "createdAt": "2026-01-12T13:59:13.917Z"
+  },
+  {
+    "id": 1768226353760,
+    "title": "Dealer Test Vehicle",
+    "price": 75000,
+    "image": "",
+    "images": [],
+    "year": 2024,
+    "mileage": 5000,
+    "fuelType": "Diesel",
+    "transmission": "Manual",
+    "color": "Red",
+    "features": [
+      "GPS",
+      "Bluetooth"
+    ],
+    "location": "Pretoria",
+    "isFeatured": true,
+    "status": "active",
+    "views": 0,
+    "dealerId": null,
+    "createdAt": "2026-01-12T13:59:13.760Z"
+  },
+  {
+    "id": 1768226323261,
+    "title": "Test Transfer Vehicle",
+    "price": 100000,
+    "image": "",
+    "images": [],
+    "year": 2023,
+    "mileage": 20000,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "color": "",
+    "features": [],
+    "location": "Sandton",
+    "isFeatured": false,
+    "status": "active",
+    "views": 0,
+    "dealerId": 1768226323181,
+    "createdAt": "2026-01-12T13:58:43.261Z"
+  },
+  {
+    "id": 1768226323240,
+    "title": "Dealer Test Vehicle",
+    "price": 75000,
+    "image": "",
+    "images": [],
+    "year": 2024,
+    "mileage": 5000,
+    "fuelType": "Diesel",
+    "transmission": "Manual",
+    "color": "Red",
+    "features": [
+      "GPS",
+      "Bluetooth"
+    ],
+    "location": "Pretoria",
+    "isFeatured": true,
+    "status": "active",
+    "views": 0,
+    "dealerId": 1768225295638,
+    "createdAt": "2026-01-12T13:58:43.241Z"
+  },
+  {
+    "id": 1768225456554,
+    "title": "Mazda",
+    "price": 50000,
+    "image": "/uploads/1768225456554-0.jpeg",
+    "images": [
+      "/uploads/1768225456554-0.jpeg",
+      "/uploads/1768225456554-1.jpeg",
+      "/uploads/1768225456554-2.jpeg",
+      "/uploads/1768225456554-3.png",
+      "/uploads/1768225456554-4.png"
+    ],
+    "year": 2023,
+    "mileage": 500000,
+    "fuelType": "Petrol",
+    "transmission": "Manual",
+    "features": [
+      "Sunroof",
+      "Wheels"
+    ],
+    "location": "Pretoria",
+    "isFeatured": true,
+    "status": "active",
+    "views": 0,
+    "createdAt": "2026-01-12T13:44:16.561Z"
+  },
+  {
+    "id": 1768169293972,
+    "title": "Amarok",
+    "price": 20000,
+    "image": "/uploads/1768169293972-0.jpeg",
+    "images": [
+      "/uploads/1768169293972-0.jpeg",
+      "/uploads/1768169293972-1.jpeg",
+      "/uploads/1768169293972-2.jpeg",
+      "/uploads/1768169293972-3.jpeg"
+    ],
+    "year": 2015,
+    "mileage": 250000,
+    "fuelType": "Diesel",
+    "transmission": "Manual",
+    "features": [
+      "BAkkie",
+      "Wiele",
+      "en goed"
+    ],
+    "location": "Pta",
+    "isFeatured": true,
+    "status": "active",
+    "views": 0,
+    "createdAt": "2026-01-11T22:08:13.983Z",
+    "description": "Well maintained Volkswagen Amarok in excellent condition. Perfect for work or leisure. All service records available.",
+    "color": "Silver",
+    "bodyType": "Bakkie/Pickup",
+    "condition": "Used",
+    "owners": 2,
+    "sellerName": "John Doe",
+    "sellerPhone": "+27 82 123 4567",
+    "sellerEmail": "seller@example.com"
+  },
+  {
+    "id": 1768168516278,
+    "title": "Hinda ",
+    "price": 79900,
+    "image": "/uploads/1768168516278-0.jpeg",
+    "images": [
+      "/uploads/1768168516278-0.jpeg",
+      "/uploads/1768168516278-1.jpeg",
+      "/uploads/1768168516278-2.jpeg"
+    ],
+    "year": 1989,
+    "mileage": 125555,
+    "fuelType": "Petrol",
+    "transmission": "Manual",
+    "features": [
+      "Sunroof",
+      "Wheels"
+    ],
+    "location": "Pretoria",
+    "isFeatured": true,
+    "status": "active",
+    "views": 0,
+    "createdAt": "2026-01-11T21:55:16.286Z"
+  },
+  {
+    "id": 1768163536108,
+    "title": "E2E Car",
+    "price": 12345,
+    "image": "",
+    "images": [],
+    "year": 2022,
+    "mileage": 1000,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "features": [
+      "e2e"
+    ],
+    "location": "Testville",
+    "isFeatured": false,
+    "status": "active",
+    "views": 0,
+    "createdAt": "2026-01-11T20:32:16.108Z"
+  },
+  {
+    "id": 1768162463066,
+    "title": "Honda",
+    "price": 69900,
+    "image": "/uploads/1768162463066-0.jpeg",
+    "images": [
+      "/uploads/1768162463066-0.jpeg",
+      "/uploads/1768162463066-1.jpeg",
+      "/uploads/1768162463066-2.jpeg"
+    ],
+    "year": 2000,
+    "mileage": 170000,
+    "fuelType": "Petrol",
+    "transmission": "Manual",
+    "features": [
+      "Sunroof",
+      "Wheels"
+    ],
+    "location": "Pretoria",
+    "isFeatured": false,
+    "status": "active",
+    "views": 0,
+    "createdAt": "2026-01-11T20:14:23.072Z"
+  },
+  {
+    "id": 1768161582187,
+    "title": "Toyota",
+    "price": 89900,
+    "image": "/uploads/1768161582187.jpeg",
+    "year": 2005,
+    "mileage": 250000,
+    "fuelType": "Petrol",
+    "transmission": "Manual",
+    "features": [
+      "Sunroof",
+      "Wheels"
+    ],
+    "location": "Pretoria",
+    "isFeatured": false,
+    "status": "active",
+    "views": 0,
+    "createdAt": "2026-01-11T19:59:42.189Z"
+  }
+]

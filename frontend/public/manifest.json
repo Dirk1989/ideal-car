@@ -1,0 +1,21 @@
+{
+  "name": "IdealCar - Car Marketplace Gauteng",
+  "short_name": "IdealCar",
+  "description": "Find your ideal car. Browse thousands of car listings across Gauteng and South Africa.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

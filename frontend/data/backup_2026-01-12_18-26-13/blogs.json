@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1768174145812,
+    "title": "3333333333",
+    "excerpt": "33333 333 3333 3333",
+    "image": "/uploads/1768174145812.jpeg",
+    "category": "33333",
+    "date": "2026-01-11T23:29:05.817Z",
+    "readTime": "33",
+    "author": "3333",
+    "status": "published",
+    "views": 0,
+    "createdAt": "2026-01-11T23:29:05.817Z"
+  },
+  {
+    "id": 1768168763766,
+    "title": "hero",
+    "excerpt": "karre is heroes",
+    "image": "/uploads/1768168763766.jpeg",
+    "category": "Cars",
+    "date": "2026-01-11T21:59:23.839Z",
+    "readTime": "2minutes",
+    "author": "Dirk",
+    "status": "published",
+    "views": 0,
+    "createdAt": "2026-01-11T21:59:23.839Z"
+  },
+  {
+    "id": 1768163536066,
+    "title": "E2E Blog",
+    "excerpt": "e2e test",
+    "image": "",
+    "category": "Testing",
+    "date": "2026-01-11T20:32:16.066Z",
+    "readTime": "2 min",
+    "author": "E2E",
+    "status": "published",
+    "views": 0,
+    "createdAt": "2026-01-11T20:32:16.066Z"
+  },
+  {
+    "id": 1768162388944,
+    "title": "hi",
+    "excerpt": "ygtfrvtrvtnvbtyb ttgtg tgtgt tggtgt ttt",
+    "image": "/uploads/1768162388944.jpeg",
+    "category": "yes",
+    "date": "2026-01-11T20:13:08.947Z",
+    "readTime": "3",
+    "author": "Dirk",
+    "status": "published",
+    "views": 0,
+    "createdAt": "2026-01-11T20:13:08.947Z"
+  }
+]

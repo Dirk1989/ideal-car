@@ -1,0 +1,20 @@
+{
+  "siteName": "IdealCar",
+  "tagline": "we sell cars",
+  "logo": "/uploads/site-logo-1768212468758.jpeg",
+  "heroImages": [
+    "/uploads/hero-1768212468762-0.jpeg"
+  ],
+  "contact": {
+    "phone": "072 324 8098",
+    "email": "info@idealbiz.co.za",
+    "address": "71 Ironwood Street, Wonderboom, Pretoria, 0182",
+    "whatsapp": "27723248098",
+    "businessName": "IdealBiz Pty Ltd"
+  },
+  "social": {
+    "facebook": "idealdealsza",
+    "instagram": "idealcarsa",
+    "twitter": "idealcarsa"
+  }
+}

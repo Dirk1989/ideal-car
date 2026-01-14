@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1768225295638,
+    "name": "Dirk Lensley",
+    "owner": "Dirk Lensley",
+    "phone": "0798828783",
+    "email": "dirklensley@yahoo.com",
+    "address": "71 Ironwood street, Wonderbooom",
+    "notes": "",
+    "createdAt": "2026-01-12T13:41:35.638Z",
+    "vehicleCount": 0
+  },
+  {
+    "id": 1768228787999,
+    "name": "Piet",
+    "owner": "Pieter",
+    "phone": "0115558800",
+    "email": "123@gmail.com",
+    "address": "71 Ironwood street, Wonderbooom",
+    "notes": "",
+    "createdAt": "2026-01-12T14:39:47.999Z",
+    "vehicleCount": 0
+  }
+]
