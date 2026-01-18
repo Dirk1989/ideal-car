@@ -9,11 +9,6 @@ Disallow: /cPanel
 Disallow: /roundcube
 Disallow: /whm
 Disallow: /cgi-bin
-Disallow: /?
-Disallow: /_next/
-Disallow: /.[^/]
-Disallow: /*?*
-Crawl-delay: 1
 
 User-agent: AhrefsBot
 Disallow: /
