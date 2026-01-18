@@ -81,6 +81,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
         <a
           href={getBlogUrl(post)}
           className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group"
+          aria-label={`Read ${post.title}`}
         >
           Read More
           <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

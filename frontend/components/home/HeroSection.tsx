@@ -61,6 +61,7 @@ const HeroSection = () => {
           className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
           style={{ backgroundImage: `url(${images[currentImage]})`, opacity: 1 }}
         />
+        <link rel="preload" as="image" href={images[0]} fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
       </div>
 

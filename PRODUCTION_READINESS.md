@@ -100,7 +100,6 @@ All API endpoints are functioning:
 - Blog listing and individual posts
 - Sell Car form (lead generation)
 - About, Contact, Privacy, Terms pages
-- Gauteng-specific car listings
 
 ## To Launch Production
 
@@ -175,7 +174,6 @@ npm start
 
 2. **Test Data Cleanup**: Some test data may remain in JSON files after testing. This is normal and can be cleaned manually if needed.
 
-3. **Page Errors After Edits**: Some pages (gauteng-cars, privacy, terms, admin) showed 500 errors due to stale dev server. Will resolve after restart.
 
 ## Security Considerations for Production
 

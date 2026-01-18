@@ -94,7 +94,6 @@ frontend/
 │   │   └── vehicles/
 │   ├── blog/               # Blog listing & detail pages
 │   ├── contact/            # Contact page
-│   ├── gauteng-cars/       # Regional car listings
 │   ├── other-services/     # Inspection services
 │   ├── privacy/            # Privacy policy
 │   ├── sell-car/           # Sell car form
@@ -129,7 +128,6 @@ frontend/
 
 - `/` - Homepage with hero, featured cars, and blog
 - `/vehicles` - Browse all vehicles with filters
-- `/gauteng-cars` - Gauteng-specific listings
 - `/sell-car` - Sell your car form
 - `/other-services` - Vehicle inspection services
 - `/blog` - Blog listing

@@ -57,7 +57,6 @@ $script:allPassed = (Test-Endpoint "About Page" "/about") -and $allPassed
 $script:allPassed = (Test-Endpoint "Contact Page" "/contact") -and $allPassed
 $script:allPassed = (Test-Endpoint "Sell Car Page" "/sell-car") -and $allPassed
 $script:allPassed = (Test-Endpoint "Blog Page" "/blog") -and $allPassed
-$script:allPassed = (Test-Endpoint "Gauteng Cars" "/gauteng-cars") -and $allPassed
 $script:allPassed = (Test-Endpoint "Privacy Policy" "/privacy") -and $allPassed
 $script:allPassed = (Test-Endpoint "Terms" "/terms") -and $allPassed
 Write-Host ""

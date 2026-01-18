@@ -230,6 +230,7 @@ const CarCard = ({ car }: CarCardProps) => {
           <Link 
             href={getVehicleUrl({ id: car.id, year: car.year, title: car.title, location: car.location })}
             className="flex-1 btn-primary text-center py-3"
+            aria-label={`View details for ${car.year} ${car.title}`}
           >
             View Details
           </Link>

@@ -133,6 +133,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
           <button
             onClick={() => setShowLightbox(false)}
             className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+            aria-label="Close lightbox"
           >
             <X className="w-8 h-8" />
           </button>
@@ -141,12 +142,14 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
               <button
                 onClick={prevImage}
                 className="absolute left-4 text-white hover:text-gray-300 transition-colors"
+                aria-label="Previous image"
               >
                 <ChevronLeft className="w-12 h-12" />
               </button>
               <button
                 onClick={nextImage}
                 className="absolute right-4 text-white hover:text-gray-300 transition-colors"
+                aria-label="Next image"
               >
                 <ChevronRight className="w-12 h-12" />
               </button>
@@ -174,6 +177,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
                 <button
                   onClick={() => setShowContactModal(false)}
                   className="text-white hover:text-gray-200 transition-colors"
+                  aria-label="Close contact form"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -272,6 +276,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
                   alt={vehicle.title}
                   className="w-full h-auto object-cover cursor-pointer"
                   onClick={() => setShowLightbox(true)}
+                  fetchPriority="high"
                 />
                 
                 {images.length > 1 && (
@@ -279,12 +284,14 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
                     <button
                       onClick={prevImage}
                       className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all"
+                      aria-label="Previous image"
                     >
                       <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
                     <button
                       onClick={nextImage}
                       className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all"
+                      aria-label="Next image"
                     >
                       <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
@@ -304,6 +311,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
                       className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-all ${
                         currentImageIndex === index ? 'border-blue-600 scale-105' : 'border-transparent hover:border-gray-300'
                       }`}
+                      aria-label={`View image ${index + 1}`}
                     >
                       <img 
                         src={img} 

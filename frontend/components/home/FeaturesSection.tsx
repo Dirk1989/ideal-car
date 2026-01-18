@@ -25,8 +25,8 @@ const FeaturesSection = () => {
     },
     {
       icon: <Zap className="h-8 w-8" />,
-      title: 'Quick Sales',
-      description: 'Average car sells in 7 days on our platform',
+      title: 'Sell Smarter',
+      description: 'Designed to help cars sell quicker',
     },
     {
       icon: <CheckCircle className="h-8 w-8" />,

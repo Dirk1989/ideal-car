@@ -1,0 +1,2 @@
+cp /etc/nginx/sites-enabled/idealcar.backup /etc/nginx/sites-enabled/idealcar
+nginx -t
