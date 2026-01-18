@@ -2,5 +2,23 @@
 Allow: /
 Disallow: /admin
 Disallow: /api
+Disallow: /webmail
+Disallow: /mail
+Disallow: /cpanel
+Disallow: /cPanel
+Disallow: /roundcube
+Disallow: /whm
+Disallow: /cgi-bin
+Disallow: /?
+Disallow: /_next/
+Disallow: /.[^/]
+Disallow: /*?*
+Crawl-delay: 1
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
 
 Sitemap: https://idealcar.co.za/sitemap.xml

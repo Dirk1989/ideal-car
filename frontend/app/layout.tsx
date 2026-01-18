@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  alternates: {
+    canonical: 'https://idealcar.co.za',
+  },
   openGraph: {
     title: 'IdealCar | Cars for sale in South Africa',
     description: 'Browse the best selection of new and used cars for sale in South Africa. Find reliable cars on IdealCar.',
@@ -116,6 +119,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth overflow-x-hidden">
       <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

@@ -88,6 +88,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     title: `${post.title} | IdealCar Blog`,
     description: post.excerpt,
     keywords: `${post.category}, car blog, automotive news south africa, ${post.title}`,
+    alternates: {
+      canonical: blogUrl,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,

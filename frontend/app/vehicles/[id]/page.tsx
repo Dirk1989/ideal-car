@@ -59,14 +59,19 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
   const vehicleImage = vehicle.images && vehicle.images.length > 0 ? vehicle.images[0] : vehicle.image || '/placeholder.jpg'
   const fullImageUrl = vehicleImage.startsWith('http') ? vehicleImage : `https://idealcar.co.za${vehicleImage}`
+  const vehicleUrl = `https://idealcar.co.za/vehicles/${generateVehicleSlug(vehicle)}`
   
   return {
     title: `${vehicle.title} - ${vehicle.year} | IdealCar`,
     description: `${vehicle.year} ${vehicle.title} for sale in ${vehicle.location}. ${vehicle.mileage.toLocaleString()} km, ${vehicle.fuelType}, ${vehicle.transmission}. Price: R${vehicle.price.toLocaleString()}`,
     keywords: `${vehicle.title}, ${vehicle.year}, ${vehicle.location}, used car, car for sale, South Africa`,
+    alternates: {
+      canonical: vehicleUrl,
+    },
     openGraph: {
       title: `${vehicle.title} - ${vehicle.year}`,
       description: `R${vehicle.price.toLocaleString()} | ${vehicle.mileage.toLocaleString()} km | ${vehicle.fuelType} | ${vehicle.transmission} | ${vehicle.location}`,
+      url: vehicleUrl,
       images: [
         {
           url: fullImageUrl,
