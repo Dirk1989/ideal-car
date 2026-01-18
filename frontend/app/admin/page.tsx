@@ -420,6 +420,7 @@ export default function AdminPage() {
     const color = String(data.get('color') || '')
     const location = String(data.get('location') || '')
     const features = String(data.get('features') || '').split(',').map(s => s.trim()).filter(Boolean)
+    const description = String(data.get('description') || '')
     const isFeatured = Boolean(data.get('isFeatured'))
 
     const imagesBase64: string[] = []
@@ -453,7 +454,7 @@ export default function AdminPage() {
     }
 
     const payload = { 
-      title, price, year, mileage, fuelType, transmission, color, location, features, isFeatured, imagesBase64,
+      title, price, year, mileage, fuelType, transmission, color, location, features, description, isFeatured, imagesBase64,
       // Link to dealer if selected
       dealerId: selectedDealer
     }
@@ -511,6 +512,7 @@ export default function AdminPage() {
     const color = String(data.get('color') || '')
     const location = String(data.get('location') || '')
     const features = String(data.get('features') || '').split(',').map(s => s.trim()).filter(Boolean)
+    const description = String(data.get('description') || '')
     const isFeatured = Boolean(data.get('isFeatured'))
 
     const imagesBase64: string[] = []
@@ -536,7 +538,7 @@ export default function AdminPage() {
 
     const payload: any = { 
       id: editingCar.id,
-      title, price, year, mileage, fuelType, transmission, color, location, features, isFeatured,
+      title, price, year, mileage, fuelType, transmission, color, location, features, description, isFeatured,
       dealerId: selectedDealer
     }
 
@@ -924,6 +926,10 @@ export default function AdminPage() {
                   </div>
                   <input name="features" placeholder="Features (comma separated)" className="border p-2 rounded" />
                   <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea name="description" placeholder="Detailed description of the vehicle..." className="border p-2 rounded w-full h-24" />
+                  </div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Images (up to 10)</label>
                     <input name="images" type="file" accept="image/*" multiple className="border p-2 rounded w-full" onChange={(e) => onImagesSelected(e.target.files)} />
                     {uploadError && <p className="text-sm text-red-600 mt-2">{uploadError}</p>}
@@ -1093,6 +1099,10 @@ export default function AdminPage() {
                       </div>
                     </div>
                     <input name="features" defaultValue={(editingCar as any).features?.join(', ') || ''} placeholder="Features (comma separated)" className="border p-2 rounded" />
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                      <textarea name="description" defaultValue={(editingCar as any).description || ''} placeholder="Detailed description of the vehicle..." className="border p-2 rounded w-full h-24" />
+                    </div>
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">Update Images (optional - leave empty to keep existing)</label>
                       <input name="images" type="file" accept="image/*" multiple className="border p-2 rounded w-full" onChange={(e) => onImagesSelected(e.target.files)} />
