@@ -1,17 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   poweredByHeader: false,
   compress: true,
   compiler: {
     // Remove console logs in production
     removeConsole: process.env.NODE_ENV === 'production',
-  },
-  // Target modern browsers only
-  experimental: {
-    browsersListForSwc: true,
-    legacyBrowsers: false,
   },
   images: {
     domains: ['localhost'],
