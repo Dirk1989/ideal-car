@@ -313,14 +313,14 @@ pm2 logs idealcar
 
 ---
 
-## 🎯 Admin Credentials
+## � Admin Credentials
 
-| Field | Value |
-|-------|-------|
-| URL | https://admin.idealcar.co.za |
-| Username | admin |
-| Password | admin123 |
-| **⚠️ IMPORTANT:** | Change these in production! |
+**⚠️ KEEP PRIVATE - NOT IN REPO**
+
+Store securely in password manager. Default is `admin` / `admin123` but should be changed in production.
+
+Location: `/frontend/app/api/auth/route.ts` (hardcoded check)
+
 
 ---
 
