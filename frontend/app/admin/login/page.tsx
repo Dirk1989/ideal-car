@@ -180,7 +180,7 @@ export default function AdminLoginPage() {
         {/* Back to Site Link */}
         <div className="mt-4 text-center">
           <a href="/" className="text-sm text-blue-100 hover:text-white transition-colors">
-            ← Back to IdealCar.com
+            ← Back to IdealCar.co.za
           </a>
         </div>
       </div>

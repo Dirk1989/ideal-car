@@ -4,6 +4,9 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Terms of Service - IdealCar',
   description: 'Terms of Service for IdealCar - Read our terms and conditions for using our car marketplace platform.',
+  alternates: {
+    canonical: 'https://idealcar.co.za/terms',
+  },
   robots: {
     index: true,
     follow: true,

@@ -7,10 +7,14 @@ export const metadata: Metadata = {
   title: 'Car News & Tips Blog | IdealCar Gauteng',
   description: 'Latest automotive news, car buying tips, maintenance advice and industry insights. Expert advice for car buyers and sellers in South Africa.',
   keywords: 'car blog, automotive news south africa, car buying tips, vehicle maintenance, gauteng car news',
+  alternates: {
+    canonical: 'https://idealcar.co.za/blog',
+  },
   openGraph: {
     title: 'IdealCar Blog - Car News & Tips',
     description: 'Latest automotive news, tips and insights for car buyers in South Africa.',
     type: 'website',
+    url: 'https://idealcar.co.za/blog',
   },
 }
 

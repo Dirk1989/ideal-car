@@ -4,6 +4,9 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Privacy Policy - IdealCar',
   description: 'Privacy Policy for IdealCar - Learn how we collect, use, and protect your personal information.',
+  alternates: {
+    canonical: 'https://idealcar.co.za/privacy',
+  },
   robots: {
     index: true,
     follow: true,

@@ -6,10 +6,14 @@ export const metadata: Metadata = {
   title: 'About IdealCar - South Africa\'s Premier Car Marketplace | Gauteng',
   description: 'Learn about IdealCar, your trusted platform for buying and selling cars in Gauteng. Transparent pricing, personalized service, and expert guidance.',
   keywords: 'about idealcar, car marketplace gauteng, used car dealers, south africa cars, johannesburg car sales',
+  alternates: {
+    canonical: 'https://idealcar.co.za/about',
+  },
   openGraph: {
     title: 'About IdealCar - Trusted Car Marketplace',
     description: 'Learn about IdealCar, your trusted platform for buying and selling cars in Gauteng.',
     type: 'website',
+    url: 'https://idealcar.co.za/about',
   },
 }
 

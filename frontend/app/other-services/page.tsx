@@ -1,9 +1,13 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { Shield, Camera, Wrench, ClipboardCheck, MapPin, Clock, CheckCircle, Star, Award, FileText } from 'lucide-react'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Professional Vehicle Inspection Services - IdealCar',
   description: 'Expert on-site vehicle inspections across Gauteng. Over 12 years experience. Detailed reports within 24-48 hours. From R499.',
+  alternates: {
+    canonical: 'https://idealcar.co.za/other-services',
+  },
 }
 
 export default function OtherServicesPage() {

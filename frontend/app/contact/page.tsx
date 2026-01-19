@@ -2,9 +2,6 @@
 
 import { useState } from 'react'
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react'
-import type { Metadata } from 'next'
-
-// Note: metadata export doesn't work with 'use client' - consider moving to separate file or using next/head
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

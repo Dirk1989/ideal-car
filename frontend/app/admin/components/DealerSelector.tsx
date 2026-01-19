@@ -64,7 +64,7 @@ export default function DealerSelector({
       <div className="relative">
         <input
           type="text"
-          placeholder="Search dealers..."
+          placeholder="Search or click to see dealers..."
           value={dealerSearchTerm}
           onChange={(e) => {
             onDealerSearchChange(e.target.value)
@@ -74,10 +74,28 @@ export default function DealerSelector({
           className="w-full border p-2 md:p-3 rounded text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
-        {/* Dropdown - positioned to avoid cutoff */}
-        {isOpen && dealerSearchTerm && (
+        {/* Dropdown - show list when focused, with or without search */}
+        {isOpen && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-b max-h-48 overflow-y-auto z-50 shadow-lg">
-            {filteredDealers.length > 0 ? (
+            {dealerSearchTerm === '' && dealers.length > 0 && !selectedDealer ? (
+              // Show all dealers when no search term
+              dealers.map((dealer) => (
+                <button
+                  key={dealer.id}
+                  type="button"
+                  onClick={() => handleSelectDealer(dealer.id, dealer.name)}
+                  className="w-full text-left px-3 md:px-4 py-2 md:py-3 hover:bg-blue-50 border-b last:border-0 transition-colors"
+                >
+                  <div className="font-semibold text-gray-900 text-sm md:text-base">
+                    {dealer.name}
+                  </div>
+                  <div className="text-xs md:text-sm text-gray-600">
+                    {dealer.owner} • {dealer.phone}
+                  </div>
+                </button>
+              ))
+            ) : dealerSearchTerm && filteredDealers.length > 0 ? (
+              // Show filtered dealers when search term exists
               filteredDealers.map((dealer) => (
                 <button
                   key={dealer.id}

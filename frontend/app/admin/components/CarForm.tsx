@@ -106,11 +106,11 @@ export default function CarForm({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 overflow-y-auto">
-      <div className="bg-white rounded-xl w-full max-w-2xl my-8 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2 sm:p-4 overflow-y-auto">
+      <div className="bg-white rounded-xl w-full max-w-2xl my-4 sm:my-8 flex flex-col max-h-[95vh] sm:max-h-[90vh]">
         {/* Sticky header */}
-        <div className="sticky top-0 bg-white border-b p-4 md:p-6 flex justify-between items-center">
-          <h3 className="text-lg md:text-xl font-bold">
+        <div className="sticky top-0 bg-white border-b p-3 sm:p-4 md:p-6 flex justify-between items-center">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold">
             {editingCar ? 'Edit Car' : 'Add New Car'}
           </h3>
           <button
@@ -118,13 +118,13 @@ export default function CarForm({
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 p-1"
           >
-            <X className="h-6 w-6" />
+            <X className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
         </div>
 
         {/* Scrollable content */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 md:p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
             {/* Dealer selection */}
             <DealerSelector
               dealers={dealers}
@@ -143,34 +143,34 @@ export default function CarForm({
               name="title"
               required
               placeholder="Title (e.g. 2023 Tesla Model S)"
-              className="border p-2 md:p-3 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               name="price"
               type="number"
               required
               placeholder="Price (R)"
-              className="border p-2 md:p-3 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               name="year"
               type="number"
               placeholder="Year"
               defaultValue={editingCar?.year}
-              className="border p-2 md:p-3 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               name="mileage"
               type="number"
               placeholder="Mileage (km)"
               defaultValue={editingCar?.mileage}
-              className="border p-2 md:p-3 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               name="location"
               placeholder="Location"
               defaultValue={editingCar?.location}
-              className="border p-2 md:p-3 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             {/* Dropdowns */}
@@ -342,18 +342,18 @@ export default function CarForm({
           </div>
 
           {/* Sticky footer */}
-          <div className="sticky bottom-0 bg-white border-t p-4 md:p-6 flex justify-end gap-3 mt-4">
+          <div className="sticky bottom-0 bg-white border-t p-3 sm:p-4 md:p-6 flex justify-end gap-2 sm:gap-3 mt-3 sm:mt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded border border-gray-300 hover:bg-gray-50 text-sm font-medium"
+              className="px-3 sm:px-4 py-2 rounded border border-gray-300 hover:bg-gray-50 text-xs sm:text-sm font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className={`px-4 md:px-6 py-2 rounded text-white font-semibold text-sm ${
+              className={`px-3 sm:px-4 md:px-6 py-2 rounded text-white font-semibold text-xs sm:text-sm ${
                 isLoading
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-blue-600 hover:bg-blue-700'

@@ -419,27 +419,27 @@ export default function AdminPage() {
 
         {/* Main content */}
         <main className="flex-1 w-full overflow-hidden">
-          <div className="p-4 md:p-6 max-w-7xl mx-auto">
+          <div className="p-3 sm:p-4 md:p-6 max-w-7xl mx-auto">
             {/* Stats Grid */}
             {activeTab === 'overview' && (
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-6 mb-4 sm:mb-6 md:mb-8">
                 {stats.map((stat, index) => (
                   <div
                     key={index}
-                    className="bg-white rounded-lg md:rounded-xl p-3 md:p-6 border border-gray-200"
+                    className="bg-white rounded-lg md:rounded-xl p-2 sm:p-3 md:p-6 border border-gray-200"
                   >
-                    <div className="flex items-center justify-between mb-2 md:mb-4">
-                      <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+                    <div className="flex items-center justify-between mb-1 sm:mb-2 md:mb-4">
+                      <div className="p-1.5 sm:p-2 bg-blue-50 text-blue-600 rounded-lg">
                         {stat.icon}
                       </div>
                       <span className="text-green-600 text-xs md:text-sm font-semibold">
                         {stat.change}
                       </span>
                     </div>
-                    <p className="text-xl md:text-3xl font-bold text-gray-900 mb-1">
+                    <p className="text-lg sm:text-xl md:text-3xl font-bold text-gray-900 mb-0.5 sm:mb-1">
                       {stat.value}
                     </p>
-                    <p className="text-xs md:text-sm text-gray-600">{stat.label}</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -447,38 +447,38 @@ export default function AdminPage() {
 
             {/* Quick Actions - Overview */}
             {activeTab === 'overview' && (
-              <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6 mb-6 md:mb-8">
-                <h2 className="text-lg md:text-xl font-bold mb-4">Quick Actions</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8">
+                <h2 className="text-base sm:text-lg md:text-xl font-bold mb-3 md:mb-4">Quick Actions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                   <button
                     onClick={() => setShowAddCarModal(true)}
-                    className="p-4 md:p-6 border-2 border-dashed border-gray-300 rounded-lg md:rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-colors group text-left"
+                    className="p-3 sm:p-4 md:p-6 border-2 border-dashed border-gray-300 rounded-lg md:rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-colors group text-left"
                   >
-                    <Car className="h-6 md:h-8 w-6 md:w-8 text-gray-400 group-hover:text-blue-500 mb-2" />
-                    <p className="font-semibold text-sm md:text-base text-gray-900">Add New Car</p>
-                    <p className="text-xs md:text-sm text-gray-600 mt-1">Add to listings</p>
+                    <Car className="h-5 sm:h-6 md:h-8 w-5 sm:w-6 md:w-8 text-gray-400 group-hover:text-blue-500 mb-1 sm:mb-2" />
+                    <p className="font-semibold text-xs sm:text-sm md:text-base text-gray-900">Add New Car</p>
+                    <p className="text-xs text-gray-600 mt-0.5 sm:mt-1">Add to listings</p>
                   </button>
 
                   <button
                     onClick={() => setShowAddBlogModal(true)}
-                    className="p-4 md:p-6 border-2 border-dashed border-gray-300 rounded-lg md:rounded-xl hover:border-green-500 hover:bg-green-50 transition-colors group text-left"
+                    className="p-3 sm:p-4 md:p-6 border-2 border-dashed border-gray-300 rounded-lg md:rounded-xl hover:border-green-500 hover:bg-green-50 transition-colors group text-left"
                   >
-                    <FileText className="h-6 md:h-8 w-6 md:w-8 text-gray-400 group-hover:text-green-500 mb-2" />
-                    <p className="font-semibold text-sm md:text-base text-gray-900">
+                    <FileText className="h-5 sm:h-6 md:h-8 w-5 sm:w-6 md:w-8 text-gray-400 group-hover:text-green-500 mb-1 sm:mb-2" />
+                    <p className="font-semibold text-xs sm:text-sm md:text-base text-gray-900">
                       Create Blog
                     </p>
-                    <p className="text-xs md:text-sm text-gray-600 mt-1">Write article</p>
+                    <p className="text-xs text-gray-600 mt-0.5 sm:mt-1">Write article</p>
                   </button>
 
                   <button
                     onClick={() => setActiveTab('leads')}
-                    className="p-4 md:p-6 border-2 border-dashed border-gray-300 rounded-lg md:rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-colors group text-left"
+                    className="p-3 sm:p-4 md:p-6 border-2 border-dashed border-gray-300 rounded-lg md:rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-colors group text-left"
                   >
-                    <Users className="h-6 md:h-8 w-6 md:w-8 text-gray-400 group-hover:text-purple-500 mb-2" />
-                    <p className="font-semibold text-sm md:text-base text-gray-900">
+                    <Users className="h-5 sm:h-6 md:h-8 w-5 sm:w-6 md:w-8 text-gray-400 group-hover:text-purple-500 mb-1 sm:mb-2" />
+                    <p className="font-semibold text-xs sm:text-sm md:text-base text-gray-900">
                       View Leads
                     </p>
-                    <p className="text-xs md:text-sm text-gray-600 mt-1">Manage leads</p>
+                    <p className="text-xs text-gray-600 mt-0.5 sm:mt-1">Manage leads</p>
                   </button>
                 </div>
               </div>
@@ -486,13 +486,13 @@ export default function AdminPage() {
 
             {/* Cars Section */}
             {activeTab === 'cars' && (
-              <div className="space-y-6">
-                <div className="flex justify-between items-start gap-4">
-                  <div>
-                    <h2 className="text-lg md:text-2xl font-bold">Car Listings</h2>
+              <div className="space-y-4 md:space-y-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4">
+                  <div className="w-full">
+                    <h2 className="text-base sm:text-lg md:text-2xl font-bold">Car Listings</h2>
                     {selectedDealer && (
-                      <div className="mt-2 flex items-center gap-2 flex-wrap">
-                        <span className="text-sm text-gray-600">
+                      <div className="mt-2 flex items-center gap-2 flex-wrap text-xs sm:text-sm">
+                        <span className="text-gray-600">
                           Filtering by:{' '}
                           <span className="font-semibold text-blue-600">
                             {dealers.find((d) => d.id === selectedDealer)?.name}
@@ -509,10 +509,11 @@ export default function AdminPage() {
                   </div>
                   <button
                     onClick={() => setShowAddCarModal(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg inline-flex items-center gap-2 text-sm md:text-base"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 md:px-4 rounded-lg inline-flex items-center gap-2 text-xs sm:text-sm md:text-base w-full sm:w-auto justify-center sm:justify-start"
                   >
                     <Plus className="h-4 w-4" />
                     <span className="hidden sm:inline">Add Car</span>
+                    <span className="sm:hidden">Add</span>
                   </button>
                 </div>
 
