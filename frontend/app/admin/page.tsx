@@ -80,6 +80,8 @@ export default function AdminPage() {
   const [showEditBlogModal, setShowEditBlogModal] = useState(false)
   const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null)
   const [showAddDealerModal, setShowAddDealerModal] = useState(false)
+  const [showEditDealerModal, setShowEditDealerModal] = useState(false)
+  const [editingDealer, setEditingDealer] = useState<Dealer | null>(null)
 
   // Data
   const [carListings, setCarListings] = useState<CarListing[]>([])
@@ -360,6 +362,101 @@ export default function AdminPage() {
       } catch (err) {
         console.error(err)
         alert('Failed to delete blog')
+      }
+    })()
+  }
+
+  const handleCreateDealer = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    const data = new FormData(form)
+    const name = String(data.get('name') || '')
+    const owner = String(data.get('owner') || '')
+    const phone = String(data.get('phone') || '')
+    const email = String(data.get('email') || '')
+    const address = String(data.get('address') || '')
+    const notes = String(data.get('notes') || '')
+
+    try {
+      const res = await fetch('/api/dealers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, owner, phone, email, address, notes }),
+      })
+      if (res.ok) {
+        const created = await res.json()
+        setDealers((prev) => [created, ...prev])
+        form.reset()
+        setShowAddDealerModal(false)
+        setShowToast(true)
+        setToastMessage('Dealer added successfully!')
+        setTimeout(() => setShowToast(false), 3000)
+      } else {
+        alert('Failed to create dealer')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Failed to create dealer')
+    }
+  }
+
+  const handleUpdateDealer = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!editingDealer) return
+
+    const form = e.currentTarget
+    const data = new FormData(form)
+    const name = String(data.get('name') || '')
+    const owner = String(data.get('owner') || '')
+    const phone = String(data.get('phone') || '')
+    const email = String(data.get('email') || '')
+    const address = String(data.get('address') || '')
+    const notes = String(data.get('notes') || '')
+
+    try {
+      const res = await fetch('/api/dealers', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: editingDealer.id, name, owner, phone, email, address, notes }),
+      })
+      if (res.ok) {
+        const updated = await res.json()
+        setDealers((prev) => prev.map((d) => (d.id === updated.id ? updated : d)))
+        form.reset()
+        setShowEditDealerModal(false)
+        setEditingDealer(null)
+        setShowToast(true)
+        setToastMessage('Dealer updated successfully!')
+        setTimeout(() => setShowToast(false), 3000)
+      } else {
+        alert('Failed to update dealer')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Failed to update dealer')
+    }
+  }
+
+  const handleDeleteDealer = (id: number) => {
+    if (!confirm('Are you sure?')) return
+    ;(async () => {
+      try {
+        const res = await fetch('/api/dealers', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id }),
+        })
+        if (res.ok) {
+          setDealers((prev) => prev.filter((d) => d.id !== id))
+          setShowToast(true)
+          setToastMessage('Dealer deleted successfully!')
+          setTimeout(() => setShowToast(false), 3000)
+        } else {
+          alert('Failed to delete dealer')
+        }
+      } catch (err) {
+        console.error(err)
+        alert('Failed to delete dealer')
       }
     })()
   }
@@ -891,6 +988,76 @@ export default function AdminPage() {
               </div>
             )}
 
+            {/* Dealers Section */}
+            {activeTab === 'dealers' && (
+              <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6">
+                <div className="flex justify-between items-center mb-4 md:mb-6">
+                  <h2 className="text-lg md:text-2xl font-bold">Dealers</h2>
+                  <button
+                    onClick={() => setShowAddDealerModal(true)}
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add Dealer
+                  </button>
+                </div>
+
+                {dealers.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">No dealers yet</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-4 py-3 text-gray-600 font-medium">Name</th>
+                          <th className="px-4 py-3 text-gray-600 font-medium hidden sm:table-cell">Owner</th>
+                          <th className="px-4 py-3 text-gray-600 font-medium hidden md:table-cell">Phone</th>
+                          <th className="px-4 py-3 text-gray-600 font-medium hidden lg:table-cell">Email</th>
+                          <th className="px-4 py-3 text-gray-600 font-medium">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dealers.map((dealer) => (
+                          <tr key={dealer.id} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="px-4 py-3">
+                              <div>
+                                <p className="font-medium text-xs md:text-sm">{dealer.name}</p>
+                                <p className="text-xs text-gray-500 truncate sm:hidden">
+                                  {dealer.address}
+                                </p>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3 text-xs hidden sm:table-cell">{dealer.owner}</td>
+                            <td className="px-4 py-3 text-xs hidden md:table-cell">{dealer.phone}</td>
+                            <td className="px-4 py-3 text-xs hidden lg:table-cell truncate">{dealer.email}</td>
+                            <td className="px-4 py-3 flex gap-1">
+                              <button
+                                onClick={() => {
+                                  setEditingDealer(dealer)
+                                  setShowEditDealerModal(true)
+                                }}
+                                className="p-1 md:p-2 hover:bg-blue-50 rounded text-blue-600"
+                              >
+                                <Edit className="h-4 w-4" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteDealer(dealer.id)}
+                                className="p-1 md:p-2 hover:bg-red-50 rounded text-red-600"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Leads Section */}
             {activeTab === 'leads' && (
               <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6">
@@ -1194,6 +1361,206 @@ export default function AdminPage() {
                 }`}
               >
                 {uploading ? 'Uploading...' : 'Update Post'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Add Dealer Modal */}
+      {showAddDealerModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2 sm:p-4 overflow-y-auto">
+          <form onSubmit={handleCreateDealer} className="bg-white rounded-xl p-3 sm:p-4 md:p-6 w-full max-w-2xl my-4 sm:my-8">
+            <div className="flex justify-between items-center mb-3 sm:mb-4 md:mb-6">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold">Add Dealer</h3>
+              <button 
+                type="button" 
+                onClick={() => setShowAddDealerModal(false)} 
+                className="text-gray-500 hover:text-gray-700 p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 md:gap-4 max-h-[70vh] overflow-y-auto pr-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Dealer Name *</label>
+                <input 
+                  name="name" 
+                  required 
+                  placeholder="Enter dealer name" 
+                  className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Owner Name</label>
+                  <input 
+                    name="owner" 
+                    placeholder="Owner name" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <input 
+                    name="phone" 
+                    placeholder="Phone number" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input 
+                    name="email" 
+                    type="email"
+                    placeholder="Email address" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address</label>
+                  <input 
+                    name="address" 
+                    placeholder="Business address" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <textarea 
+                  name="notes" 
+                  placeholder="Additional notes" 
+                  className="border p-2 md:p-3 rounded h-20 w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+              <button 
+                type="button" 
+                onClick={() => setShowAddDealerModal(false)} 
+                className="px-3 sm:px-4 py-2 rounded border border-gray-300 hover:bg-gray-50 text-xs sm:text-sm font-medium"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className="px-3 sm:px-4 py-2 rounded text-white font-medium text-xs sm:text-sm bg-green-600 hover:bg-green-700"
+              >
+                Add Dealer
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Edit Dealer Modal */}
+      {showEditDealerModal && editingDealer && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2 sm:p-4 overflow-y-auto">
+          <form onSubmit={handleUpdateDealer} className="bg-white rounded-xl p-3 sm:p-4 md:p-6 w-full max-w-2xl my-4 sm:my-8">
+            <div className="flex justify-between items-center mb-3 sm:mb-4 md:mb-6">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold">Edit Dealer</h3>
+              <button 
+                type="button" 
+                onClick={() => {
+                  setShowEditDealerModal(false)
+                  setEditingDealer(null)
+                }} 
+                className="text-gray-500 hover:text-gray-700 p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 md:gap-4 max-h-[70vh] overflow-y-auto pr-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Dealer Name *</label>
+                <input 
+                  name="name" 
+                  required 
+                  defaultValue={editingDealer.name}
+                  placeholder="Enter dealer name" 
+                  className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Owner Name</label>
+                  <input 
+                    name="owner" 
+                    defaultValue={editingDealer.owner}
+                    placeholder="Owner name" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <input 
+                    name="phone" 
+                    defaultValue={editingDealer.phone}
+                    placeholder="Phone number" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input 
+                    name="email" 
+                    type="email"
+                    defaultValue={editingDealer.email}
+                    placeholder="Email address" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address</label>
+                  <input 
+                    name="address" 
+                    defaultValue={editingDealer.address}
+                    placeholder="Business address" 
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <textarea 
+                  name="notes" 
+                  defaultValue={editingDealer.notes}
+                  placeholder="Additional notes" 
+                  className="border p-2 md:p-3 rounded h-20 w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+              <button 
+                type="button" 
+                onClick={() => {
+                  setShowEditDealerModal(false)
+                  setEditingDealer(null)
+                }} 
+                className="px-3 sm:px-4 py-2 rounded border border-gray-300 hover:bg-gray-50 text-xs sm:text-sm font-medium"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className="px-3 sm:px-4 py-2 rounded text-white font-medium text-xs sm:text-sm bg-blue-600 hover:bg-blue-700"
+              >
+                Update Dealer
               </button>
             </div>
           </form>
