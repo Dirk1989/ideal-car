@@ -335,6 +335,55 @@ export default function AdminPage() {
     })()
   }
 
+  const handleCreateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    const data = new FormData(form)
+    const title = String(data.get('title') || '')
+    const excerpt = String(data.get('excerpt') || '')
+    const category = String(data.get('category') || 'General')
+    const author = String(data.get('author') || 'Admin')
+    const status = String(data.get('status') || 'published')
+    const readTime = String(data.get('readTime') || '3 min read')
+    const content = String(data.get('content') || '')
+
+    const file = data.get('image') as File | null
+    let imageBase64: string | undefined
+
+    if (file && file.size > 0) {
+      try {
+        setUploading(true)
+        imageBase64 = await toBase64(file) || undefined
+      } catch (e) {
+        console.error('Failed to convert blog image', e)
+      } finally {
+        setUploading(false)
+      }
+    }
+
+    const payload = { title, excerpt, content, category, author, status, readTime, imageBase64 }
+
+    try {
+      const res = await fetch('/api/blogs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (res.ok) {
+        const created = await res.json()
+        setBlogPosts((prev) => [created, ...prev])
+        form.reset()
+        setShowAddBlogModal(false)
+      } else {
+        console.error('Failed to create blog', res.status)
+        alert('Failed to create blog')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Failed to create blog')
+    }
+  }
+
   const toBase64 = (file: File) =>
     new Promise<string | null>((resolve, reject) => {
       const reader = new FileReader()
@@ -795,6 +844,128 @@ export default function AdminPage() {
         isLoading={uploading}
         editingCar={editingCar || undefined}
       />
+
+      {/* Add Blog Modal */}
+      {showAddBlogModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2 sm:p-4 overflow-y-auto">
+          <form onSubmit={handleCreateBlog} className="bg-white rounded-xl p-3 sm:p-4 md:p-6 w-full max-w-2xl my-4 sm:my-8">
+            <div className="flex justify-between items-center mb-3 sm:mb-4 md:mb-6">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold">Create Blog Post</h3>
+              <button 
+                type="button" 
+                onClick={() => setShowAddBlogModal(false)} 
+                className="text-gray-500 hover:text-gray-700 p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 md:gap-4 max-h-[70vh] overflow-y-auto pr-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Title *</label>
+                <input 
+                  name="title" 
+                  required 
+                  placeholder="Enter blog post title" 
+                  className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Excerpt *</label>
+                <textarea 
+                  name="excerpt" 
+                  required 
+                  placeholder="Brief summary of the post" 
+                  className="border p-2 md:p-3 rounded h-20 w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <input 
+                    name="category" 
+                    placeholder="e.g. Vehicle Maintenance" 
+                    defaultValue="General"
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Author</label>
+                  <input 
+                    name="author" 
+                    placeholder="Author name" 
+                    defaultValue="Admin"
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <select 
+                    name="status" 
+                    defaultValue="published"
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Read Time</label>
+                  <input 
+                    name="readTime" 
+                    placeholder="e.g. 5 min read" 
+                    defaultValue="3 min read"
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Image</label>
+                <input 
+                  name="image" 
+                  type="file" 
+                  accept="image/*" 
+                  className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Content</label>
+                <textarea 
+                  name="content" 
+                  placeholder="Full article content (supports basic markdown)" 
+                  className="border p-2 md:p-3 rounded h-32 w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+              <button 
+                type="button" 
+                onClick={() => setShowAddBlogModal(false)} 
+                className="px-3 sm:px-4 py-2 rounded border border-gray-300 hover:bg-gray-50 text-xs sm:text-sm font-medium"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                disabled={uploading}
+                className={`px-3 sm:px-4 py-2 rounded text-white font-medium text-xs sm:text-sm ${
+                  uploading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
+                }`}
+              >
+                {uploading ? 'Uploading...' : 'Create Post'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   )
 }
