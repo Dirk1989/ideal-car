@@ -85,9 +85,9 @@ export default function AdminPage() {
   const [tagline, setTagline] = useState<string>('')
   const [uploading, setUploading] = useState(false)
 
-  // Dealer filtering
-  const [selectedDealer, setSelectedDealer] = useState<number | null>(null)
-  const [dealerSearchTerm, setDealerSearchTerm] = useState('')
+  // Toast notification
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
 
   // Check authentication
   useEffect(() => {
@@ -204,6 +204,9 @@ export default function AdminPage() {
         const created = await res.json()
         setCarListings((prev) => [created, ...prev])
         setShowAddCarModal(false)
+        setToastMessage('✅ Vehicle added successfully!')
+        setShowToast(true)
+        setTimeout(() => setShowToast(false), 3000)
       } else {
         const errorText = await res.text()
         console.error('API error:', res.status, errorText)
@@ -289,6 +292,9 @@ export default function AdminPage() {
         setCarListings((prev) => prev.map((c) => (c.id === updated.id ? updated : c)))
         setShowEditCarModal(false)
         setEditingCar(null)
+        setToastMessage('✅ Vehicle updated successfully!')
+        setShowToast(true)
+        setTimeout(() => setShowToast(false), 3000)
       } else {
         const errorText = await res.text()
         console.error('API error:', res.status, errorText)
@@ -311,6 +317,9 @@ export default function AdminPage() {
         })
         if (res.ok) {
           setCarListings((prev) => prev.filter((c) => c.id !== id))
+          setToastMessage('✅ Vehicle deleted successfully!')
+          setShowToast(true)
+          setTimeout(() => setShowToast(false), 3000)
         } else {
           alert('Failed to delete vehicle')
         }
@@ -461,6 +470,13 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed top-4 right-4 z-50 bg-white shadow-lg rounded-lg px-6 py-3 border-l-4 border-green-500 animate-in slide-in-from-top-2 duration-300">
+          <p className="text-green-700 font-medium">{toastMessage}</p>
+        </div>
+      )}
+
       {/* Header */}
       <AdminHeader
         onMenuClick={() => setSidebarOpen(true)}

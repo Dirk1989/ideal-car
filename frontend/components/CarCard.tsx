@@ -202,21 +202,21 @@ const CarCard = ({ car }: CarCardProps) => {
 
         {/* Specs */}
         <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="flex items-center text-gray-600">
-            <span className="text-sm font-medium">Year:</span>
+          <div className="flex items-center text-gray-600 min-w-0">
+            <span className="text-sm font-medium whitespace-nowrap">Year:</span>
             <span className="ml-2 font-semibold">{car.year}</span>
           </div>
-          <div className="flex items-center text-gray-600">
-            <span className="text-sm font-medium">Mileage:</span>
-            <span className="ml-2 font-semibold">{formatMileage(car.mileage)}</span>
+          <div className="flex items-center text-gray-600 min-w-0">
+            <span className="text-sm font-medium whitespace-nowrap">Mileage:</span>
+            <span className="ml-2 font-semibold truncate">{formatMileage(car.mileage)}</span>
           </div>
-          <div className="flex items-center text-gray-600">
-            <span className="text-sm font-medium">Fuel:</span>
-            <span className="ml-2 font-semibold">{car.fuelType}</span>
+          <div className="flex items-center text-gray-600 min-w-0">
+            <span className="text-sm font-medium whitespace-nowrap">Fuel:</span>
+            <span className="ml-2 font-semibold truncate">{car.fuelType}</span>
           </div>
-          <div className="flex items-center text-gray-600">
-            <span className="text-sm font-medium">Transmission:</span>
-            <span className="ml-2 font-semibold">{car.transmission}</span>
+          <div className="flex items-center text-gray-600 min-w-0">
+            <span className="text-sm font-medium whitespace-nowrap">Transmission:</span>
+            <span className="ml-2 font-semibold truncate">{car.transmission}</span>
           </div>
         </div>
 
