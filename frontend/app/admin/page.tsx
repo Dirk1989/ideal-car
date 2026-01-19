@@ -16,6 +16,9 @@ interface CarListing {
   fuelType: string
   transmission: string
   color?: string
+  make?: string
+  model?: string
+  bodyType?: string
   location: string
   isFeatured: boolean
   status: 'active' | 'sold' | 'pending'
@@ -153,6 +156,9 @@ export default function AdminPage() {
     const fuelType = String(formData.get('fuelType') || '')
     const transmission = String(formData.get('transmission') || '')
     const color = String(formData.get('color') || '')
+    const make = String(formData.get('make') || '')
+    const model = String(formData.get('model') || '')
+    const bodyType = String(formData.get('bodyType') || '')
     const location = String(formData.get('location') || '')
     const features = String(formData.get('features') || '')
       .split(',')
@@ -186,6 +192,9 @@ export default function AdminPage() {
       fuelType,
       transmission,
       color,
+      make,
+      model,
+      bodyType,
       location,
       features,
       description,
@@ -223,6 +232,9 @@ export default function AdminPage() {
     const fuelType = String(formData.get('fuelType') || '')
     const transmission = String(formData.get('transmission') || '')
     const color = String(formData.get('color') || '')
+    const make = String(formData.get('make') || '')
+    const model = String(formData.get('model') || '')
+    const bodyType = String(formData.get('bodyType') || '')
     const location = String(formData.get('location') || '')
     const features = String(formData.get('features') || '')
       .split(',')
@@ -257,6 +269,9 @@ export default function AdminPage() {
       fuelType,
       transmission,
       color,
+      make,
+      model,
+      bodyType,
       location,
       features,
       description,
