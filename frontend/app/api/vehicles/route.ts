@@ -44,7 +44,12 @@ export async function GET() {
   ensureStorage()
   const raw = fs.readFileSync(DATA_FILE, 'utf8')
   try {
-    const data = JSON.parse(raw)
+    let data = JSON.parse(raw)
+    // Migrate old vehicles: if images array is missing, use image field
+    data = data.map((v: any) => ({
+      ...v,
+      images: v.images && v.images.length > 0 ? v.images : (v.image ? [v.image] : [])
+    }))
     return NextResponse.json(data)
   } catch (e) {
     return NextResponse.json([], { status: 200 })
