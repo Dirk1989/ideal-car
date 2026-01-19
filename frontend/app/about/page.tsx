@@ -164,18 +164,18 @@ export default function AboutPage() {
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose IdealCar?</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                We go above and beyond to ensure your car buying or selling experience is exceptional
+                We focus on making car buying and selling simpler, clearer, and more reliable.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               {[
-                { icon: Shield, title: 'Verified Quality', desc: 'Thorough inspection on every vehicle to ensure safety and reliability' },
-                { icon: Clock, title: 'Fast & Simple', desc: 'Streamlined process that saves you time and hassle' },
-                { icon: ThumbsUp, title: 'Transparent Pricing', desc: 'No hidden fees or surprises—what you see is what you get' },
-                { icon: Users, title: 'Expert Support', desc: 'Knowledgeable team ready to assist at every step' },
-                { icon: Car, title: 'Wide Selection', desc: 'Diverse inventory to match every need and budget' },
-                { icon: Award, title: 'Best Value', desc: 'Competitive pricing and great deals on quality vehicles' }
+                { icon: Shield, title: 'Verified Listings', desc: 'Clear vehicle details and structured listings to help buyers make informed decisions' },
+                { icon: Clock, title: 'Simple & Efficient', desc: 'An easy-to-use platform designed to save time and reduce friction' },
+                { icon: ThumbsUp, title: 'Transparent Information', desc: 'Upfront listing details with no misleading pricing or hidden surprises' },
+                { icon: Users, title: 'Helpful Support', desc: 'Guidance and assistance available when you need it' },
+                { icon: Car, title: 'Broad Selection', desc: 'A growing range of vehicles from private sellers and dealers' },
+                { icon: Award, title: 'Smart Value', desc: 'Tools and insights to help buyers and sellers make better decisions' }
               ].map((item, index) => (
                 <div key={index} className="flex items-start space-x-4 bg-gray-50 rounded-xl p-6 hover:bg-blue-50 transition-colors">
                   <div className="flex-shrink-0">
