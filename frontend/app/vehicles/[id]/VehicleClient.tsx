@@ -296,10 +296,11 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
       )}
 
       {/* Content */}
-      <section className="container-custom py-12 md:py-16">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - Images & Details */}
-          <div className="lg:col-span-2 space-y-8">
+      <section className="w-full overflow-x-hidden">
+        <div className="container-custom py-12 md:py-16">
+          <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+            {/* Left Column - Images & Details */}
+            <div className="lg:col-span-2 space-y-6 md:space-y-8">
               {/* Image Gallery with Carousel */}
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 {images.length > 0 ? (
@@ -563,7 +564,8 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* Similar Vehicles */}
       <section className="py-12 bg-white">
