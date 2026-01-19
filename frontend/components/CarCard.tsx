@@ -20,6 +20,9 @@ interface CarCardProps {
     features: string[]
     location: string
     isFeatured?: boolean
+    make?: string
+    model?: string
+    bodyType?: string
   }
 }
 
@@ -173,12 +176,23 @@ const CarCard = ({ car }: CarCardProps) => {
 
       {/* Content */}
       <div className="p-6">
-        <div className="flex justify-between items-start mb-3">
+        <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold text-gray-900">{car.title}</h3>
           <span className="text-2xl font-bold text-blue-600">
             {formatPrice(car.price)}
           </span>
         </div>
+
+        {/* Make/Model - Subtle */}
+        {(car.make || car.model || car.bodyType) && (
+          <p className="text-xs text-gray-500 mb-2 italic">
+            {car.make && <span>{car.make}</span>}
+            {car.make && car.model && <span> · </span>}
+            {car.model && <span>{car.model}</span>}
+            {(car.make || car.model) && car.bodyType && <span> · </span>}
+            {car.bodyType && <span>{car.bodyType}</span>}
+          </p>
+        )}
 
         {/* Location */}
         <div className="flex items-center text-gray-600 mb-3">
