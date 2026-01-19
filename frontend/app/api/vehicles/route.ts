@@ -7,10 +7,11 @@ const DATA_DIR = path.join(process.cwd(), 'data')
 const DATA_FILE = path.join(DATA_DIR, 'vehicles.json')
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads')
 
-// Image compression settings
-const IMAGE_QUALITY = 80 // JPEG quality (1-100)
-const MAX_WIDTH = 1920
-const MAX_HEIGHT = 1080
+// Image compression settings - optimized for web
+const IMAGE_QUALITY = 65 // JPEG quality (lower = smaller file, 65-70 is good balance)
+const MAX_WIDTH = 1600 // Reduced from 1920
+const MAX_HEIGHT = 900  // Reduced from 1080
+const MAX_FILE_SIZE = 3 * 1024 * 1024 // 3MB max per image
 
 function generateSeoFilename(title: string, make: string, model: string, year: number, idx: number): string {
   // Create SEO-friendly filename from vehicle details
@@ -34,13 +35,28 @@ async function compressImage(buffer: Buffer, filename: string): Promise<string> 
   try {
     const outputPath = path.join(UPLOAD_DIR, filename)
     
+    // Aggressive compression with quality settings
     await sharp(buffer)
       .resize(MAX_WIDTH, MAX_HEIGHT, {
         fit: 'inside',
         withoutEnlargement: true
       })
-      .jpeg({ quality: IMAGE_QUALITY, mozjpeg: true })
+      .rotate() // Auto-rotate based on EXIF
+      .jpeg({ 
+        quality: IMAGE_QUALITY, 
+        mozjpeg: true,
+        progressive: true,
+        force: true
+      })
       .toFile(outputPath)
+    
+    const stats = fs.statSync(outputPath)
+    console.log(`Image compressed: ${filename} - ${(stats.size / 1024 / 1024).toFixed(2)}MB`)
+    
+    // Warn if still too large
+    if (stats.size > MAX_FILE_SIZE) {
+      console.warn(`Warning: ${filename} is ${(stats.size / 1024 / 1024).toFixed(2)}MB (max: 3MB)`)
+    }
     
     return `/uploads/${filename}`
   } catch (error) {
