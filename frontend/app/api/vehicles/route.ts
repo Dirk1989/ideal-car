@@ -93,7 +93,8 @@ export async function POST(req: Request) {
       
       for (let idx = 0; idx < files.length; idx++) {
         const file = files[idx]
-        if (file instanceof File) {
+        // Check if it has the properties of a file-like object (stream, arrayBuffer, etc)
+        if (file && (typeof file.arrayBuffer === 'function' || file.stream)) {
           try {
             const buffer = await file.arrayBuffer()
             const filename = `${id}-${idx}.jpg`
