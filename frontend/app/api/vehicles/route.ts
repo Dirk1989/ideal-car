@@ -12,6 +12,18 @@ const IMAGE_QUALITY = 80 // JPEG quality (1-100)
 const MAX_WIDTH = 1920
 const MAX_HEIGHT = 1080
 
+function generateSeoFilename(title: string, make: string, model: string, year: number, idx: number): string {
+  // Create SEO-friendly filename from vehicle details
+  const parts: string[] = []
+  
+  if (year) parts.push(year.toString())
+  if (make) parts.push(make.toLowerCase().replace(/\s+/g, '-'))
+  if (model) parts.push(model.toLowerCase().replace(/\s+/g, '-'))
+  
+  const baseName = parts.length > 0 ? parts.join('-') : 'vehicle'
+  return `${baseName}-${idx}.jpg`
+}
+
 function ensureStorage() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true })
   if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true })
@@ -91,6 +103,10 @@ export async function POST(req: Request) {
     const id = Date.now()
     let imagePath = body.image || ''
     const images: string[] = []
+    
+    // Generate SEO-friendly base filename
+    const seoBase = generateSeoFilename(body.title, body.make, body.model, body.year, 0)
+    const seoBaseName = seoBase.replace('-0.jpg', '')
 
     // Handle multipart/form-data files
     if (body.images && Array.isArray(body.images) && body.images.length > 0) {
@@ -102,7 +118,7 @@ export async function POST(req: Request) {
         if (file && (typeof file.arrayBuffer === 'function' || file.stream)) {
           try {
             const buffer = await file.arrayBuffer()
-            const filename = `${id}-${idx}.jpg`
+            const filename = `${seoBaseName}-${idx}.jpg`
             const savedPath = await compressImage(Buffer.from(buffer), filename)
             images.push(savedPath)
           } catch (err) {
@@ -126,7 +142,7 @@ export async function POST(req: Request) {
         }
         
         const buffer = Buffer.from(b64, 'base64')
-        const filename = `${id}-${idx}.jpg`
+        const filename = `${seoBaseName}-${idx}.jpg`
         const savedPath = await compressImage(buffer, filename)
         images.push(savedPath)
       }
@@ -140,7 +156,7 @@ export async function POST(req: Request) {
       }
       
       const buffer = Buffer.from(b64, 'base64')
-      const filename = `${id}.jpg`
+      const filename = `${seoBaseName}.jpg`
       imagePath = await compressImage(buffer, filename)
       images.push(imagePath)
     }
@@ -198,6 +214,10 @@ export async function PUT(req: Request) {
     const existing = arr[idx]
     let imagePath = existing.image
     let images: string[] = existing.images || []
+    
+    // Generate SEO-friendly base filename for updates
+    const seoBase = generateSeoFilename(body.title || existing.title, body.make || existing.make, body.model || existing.model, body.year || existing.year, 0)
+    const seoBaseName = seoBase.replace('-0.jpg', '')
 
     // Handle new images if provided with compression
     if (Array.isArray(body.imagesBase64) && body.imagesBase64.length > 0) {
@@ -214,7 +234,7 @@ export async function PUT(req: Request) {
         }
         
         const buffer = Buffer.from(b64, 'base64')
-        const filename = `${id}-${Date.now()}-${idx}.jpg`
+        const filename = `${seoBaseName}-${idx}.jpg`
         
         // Compress and save image
         const savedPath = await compressImage(buffer, filename)
