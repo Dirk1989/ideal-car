@@ -327,6 +327,7 @@ export default function CarForm({
               name="title"
               required
               placeholder="Title (e.g. 2023 Tesla Model S)"
+              defaultValue={editingCar?.title}
               className="border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
@@ -334,6 +335,7 @@ export default function CarForm({
               type="number"
               required
               placeholder="Price (R)"
+              defaultValue={editingCar?.price}
               className="border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
