@@ -13,19 +13,23 @@
 - **Gauteng Focused**: Specialized listings for Johannesburg, Pretoria, and surrounding areas
 - **Vehicle Inspections**: Professional pre-purchase inspection services
 - **Detailed Information**: Comprehensive vehicle details, photos, and seller contact info
+- **Mobile Optimized**: Perfect single-column layout on mobile, grid on desktop
 
 ### For Sellers
-- **List Your Car**: Easy-to-use car listing interface
+- **List Your Car**: Easy-to-use car listing interface with form pre-population for editing
 - **Lead Management**: Receive inquiries directly from interested buyers
 - **Fast Sales**: Quick quote system for urgent sellers
 - **Free Listings**: No upfront costs to list your vehicle
+- **Photo Upload**: Upload up to 10 photos per vehicle (auto-compressed from 5MB+ to ~300-500KB)
+- **SEO Auto-Naming**: Photos automatically named with vehicle details (e.g., `2005-volkswagen-golf-0.jpg`)
 
 ### Platform Features
-- **Admin Dashboard**: Complete management system for listings, blogs, and leads
+- **Admin Dashboard**: Complete management system for listings, blogs, and leads with success notifications
 - **Blog System**: SEO-optimized blog for automotive content
 - **Responsive Design**: Mobile-first, works perfectly on all devices
 - **Performance Optimized**: Fast loading times and excellent Core Web Vitals
 - **SEO Ready**: Comprehensive meta tags, structured data, and sitemaps
+- **Smart Image Handling**: Auto-migration of old listings, progressive JPEG compression, EXIF auto-rotation
 
 ## 📋 Tech Stack
 
@@ -158,19 +162,53 @@ frontend/
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Current Production Setup
 
-1. Push your code to GitHub
+**Live at:** https://idealcar.co.za
+
+**Server:** Hetzner Cloud (116.203.229.47)  
+**Process Manager:** PM2  
+**Reverse Proxy:** Nginx (SSL with Let's Encrypt)  
+**Max Upload:** 100MB (client-side 20MB limit for safety)  
+
+### Deployment Steps
+
+1. **SSH to server**
+```bash
+ssh root@116.203.229.47
+```
+
+2. **Pull latest code**
+```bash
+cd /var/www/idealcar
+git pull origin main
+```
+
+3. **Build frontend**
+```bash
+cd frontend
+npm run build
+```
+
+4. **Restart PM2**
+```bash
+pm2 restart idealcar
+```
+
+### Nginx Configuration
+
+Key settings in `/etc/nginx/sites-enabled/idealcar`:
+- `client_max_body_size 100M` - Allows large uploads through proxy
+- `proxy_buffer_size 128k` - Handles large request bodies
+- `proxy_set_header Origin $scheme://$host` - Required for Next.js Server Actions
+- SSL certificates: Let's Encrypt (auto-renewal via certbot)
+
+### Vercel (Alternative)
+
+1. Push to GitHub
 2. Import project in Vercel
 3. Add environment variables
 4. Deploy!
-
-### Other Platforms
-
-```bash
-npm run build
-npm run start
-```
 
 ## 📝 Environment Variables
 
@@ -181,6 +219,33 @@ npm run start
 | `NEXT_PUBLIC_PHONE` | Contact phone | Yes |
 | `NEXT_PUBLIC_EMAIL` | Contact email | Yes |
 | `NEXT_PUBLIC_WHATSAPP` | WhatsApp number | No |
+
+## ✨ Recent Updates (January 2026)
+
+### Image Processing
+- ✅ Aggressive JPEG compression (quality: 65, max: 1600x900, progressive)
+- ✅ EXIF auto-rotation for proper image orientation
+- ✅ SEO-friendly filenames: `{year}-{make}-{model}-{index}.jpg`
+- ✅ Auto-migration for old listings (restores photos from single `image` field)
+- ✅ File size reduction: 5MB+ → ~300-500KB per image
+
+### Admin Features
+- ✅ Form field pre-population when editing vehicles
+- ✅ Success toast notifications on create/update/delete
+- ✅ Support for up to 10 images per vehicle
+- ✅ 20MB frontend upload limit (auto-compressed on server)
+
+### Mobile Optimization
+- ✅ Single-column layout on mobile (photos, specs, features, contact)
+- ✅ Responsive grid on desktop (2-3 columns)
+- ✅ Text truncation on car cards (transmission, fuel, mileage)
+- ✅ Touch-friendly modal dialogs
+
+### Infrastructure
+- ✅ Nginx proxy buffer optimization for large uploads
+- ✅ Origin header forwarding (fixes Server Actions)
+- ✅ 100MB client_max_body_size for flex
+- ✅ PM2 process management with auto-restart
 
 ## 🔧 Configuration
 
