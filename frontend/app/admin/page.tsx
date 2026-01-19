@@ -214,11 +214,13 @@ export default function AdminPage() {
         setCarListings((prev) => [created, ...prev])
         setShowAddCarModal(false)
       } else {
-        alert('Failed to create vehicle')
+        const errorText = await res.text()
+        console.error('API error:', res.status, errorText)
+        alert(`Failed to create vehicle: ${res.status} ${errorText}`)
       }
     } catch (err) {
-      console.error(err)
-      alert('Failed to create vehicle')
+      console.error('Request error:', err)
+      alert(`Failed to create vehicle: ${err}`)
     }
   }
 
@@ -295,11 +297,13 @@ export default function AdminPage() {
         setShowEditCarModal(false)
         setEditingCar(null)
       } else {
-        alert('Failed to update vehicle')
+        const errorText = await res.text()
+        console.error('API error:', res.status, errorText)
+        alert(`Failed to update vehicle: ${res.status} ${errorText}`)
       }
     } catch (err) {
-      console.error(err)
-      alert('Failed to update vehicle')
+      console.error('Request error:', err)
+      alert(`Failed to update vehicle: ${err}`)
     }
   }
 

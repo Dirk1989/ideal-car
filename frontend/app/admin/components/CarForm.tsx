@@ -137,6 +137,20 @@ export default function CarForm({
     const form = e.currentTarget
     const formData = new FormData(form)
 
+    // Ensure make and model are set correctly based on custom/selected state
+    if (useCustomMake && customMake) {
+      formData.set('make', customMake)
+    }
+    if (useCustomModel && customModel) {
+      formData.set('model', customModel)
+    } else if (!useCustomModel && selectedMake) {
+      // If using selected make, ensure it's set
+      const makeSelect = form.querySelector('select[name="make"]') as HTMLSelectElement
+      if (makeSelect && makeSelect.value) {
+        formData.set('make', makeSelect.value)
+      }
+    }
+
     // Add images
     for (const file of selectedFiles) {
       formData.append('images', file)
