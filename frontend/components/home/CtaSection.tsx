@@ -34,10 +34,10 @@ const CtaSection = () => {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 pt-8 border-t border-blue-500/30">
             {[
-              { value: '500+', label: 'Vehicles Sold' },
-              { value: '98%', label: 'Customer Satisfaction' },
-              { value: '24/7', label: 'Support Available' },
-              { value: '10+', label: 'Brand Partners' },
+              { value: 'Curated', label: 'Listings' },
+              { value: 'Serious', label: 'Buyers' },
+              { value: 'Always', label: 'Available' },
+              { value: 'Trusted', label: 'Partners' },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-white mb-2">
