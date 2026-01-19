@@ -168,46 +168,37 @@ export default function AdminPage() {
     const isFeatured = Boolean(formData.get('isFeatured'))
     const dealerId = formData.get('dealerId')
 
+    // Create payload - FormData can be sent directly with files
+    const payload = new FormData()
+    payload.append('title', title)
+    payload.append('price', String(price))
+    payload.append('year', String(year))
+    payload.append('mileage', String(mileage))
+    payload.append('fuelType', fuelType)
+    payload.append('transmission', transmission)
+    payload.append('color', color)
+    payload.append('make', make)
+    payload.append('model', model)
+    payload.append('bodyType', bodyType)
+    payload.append('location', location)
+    payload.append('features', JSON.stringify(features))
+    payload.append('description', description)
+    payload.append('isFeatured', String(isFeatured))
+    if (dealerId) {
+      payload.append('dealerId', String(dealerId))
+    }
+
+    // Add files directly without converting to base64
     const files = formData.getAll('images') as File[]
-    const imagesBase64: string[] = []
-
-    if (files && files.length > 0) {
-      setUploading(true)
-      for (const file of files) {
-        try {
-          const b64 = await toBase64(file)
-          if (b64) imagesBase64.push(b64)
-        } catch (err) {
-          console.error('Failed to convert file', err)
-        }
-      }
-      setUploading(false)
+    for (const file of files) {
+      payload.append('images', file)
     }
 
-    const payload = {
-      title,
-      price,
-      year,
-      mileage,
-      fuelType,
-      transmission,
-      color,
-      make,
-      model,
-      bodyType,
-      location,
-      features,
-      description,
-      isFeatured,
-      imagesBase64,
-      dealerId: dealerId ? Number(dealerId) : null,
-    }
-
+    setUploading(true)
     try {
       const res = await fetch('/api/vehicles', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: payload,
       })
       if (res.ok) {
         const created = await res.json()
@@ -221,6 +212,8 @@ export default function AdminPage() {
     } catch (err) {
       console.error('Request error:', err)
       alert(`Failed to create vehicle: ${err}`)
+    } finally {
+      setUploading(false)
     }
   }
 

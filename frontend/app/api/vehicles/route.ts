@@ -53,17 +53,62 @@ export async function GET() {
 
 export async function POST(req: Request) {
   ensureStorage()
-  const body = await req.json()
+  
+  let body: any
+  const contentType = req.headers.get('content-type') || ''
+  
+  // Handle both FormData (multipart) and JSON
+  if (contentType.includes('multipart/form-data')) {
+    const formData = await req.formData()
+    body = {
+      title: formData.get('title'),
+      price: formData.get('price'),
+      year: formData.get('year'),
+      mileage: formData.get('mileage'),
+      fuelType: formData.get('fuelType'),
+      transmission: formData.get('transmission'),
+      color: formData.get('color'),
+      make: formData.get('make'),
+      model: formData.get('model'),
+      bodyType: formData.get('bodyType'),
+      location: formData.get('location'),
+      features: JSON.parse(formData.get('features') as string || '[]'),
+      description: formData.get('description'),
+      isFeatured: formData.get('isFeatured') === 'true',
+      dealerId: formData.get('dealerId'),
+      images: formData.getAll('images') as File[],
+    }
+  } else {
+    body = await req.json()
+  }
 
   const id = Date.now()
   let imagePath = body.image || ''
   const images: string[] = []
 
-  // support multiple images sent as base64 strings in body.imagesBase64 (array)
-  if (Array.isArray(body.imagesBase64) && body.imagesBase64.length > 0) {
+  // Handle multipart/form-data files
+  if (body.images && Array.isArray(body.images) && body.images.length > 0) {
+    const files = body.images.slice(0, 10) // limit to 10
+    
+    for (let idx = 0; idx < files.length; idx++) {
+      const file = files[idx]
+      if (file instanceof File) {
+        try {
+          const buffer = await file.arrayBuffer()
+          const filename = `${id}-${idx}.jpg`
+          const savedPath = await compressImage(Buffer.from(buffer), filename)
+          images.push(savedPath)
+        } catch (err) {
+          console.error(`Failed to process file ${idx}:`, err)
+        }
+      }
+    }
+    imagePath = images[0] || ''
+  }
+  // Handle base64 images from JSON (legacy)
+  else if (Array.isArray(body.imagesBase64) && body.imagesBase64.length > 0) {
     const items = body.imagesBase64.slice(0, 10) // limit to 10
     
-    // Process images with compression
     for (let idx = 0; idx < items.length; idx++) {
       const imgBase64 = items[idx]
       const matches = imgBase64.match(/^data:(.+);base64,(.+)$/)
@@ -74,13 +119,10 @@ export async function POST(req: Request) {
       }
       
       const buffer = Buffer.from(b64, 'base64')
-      const filename = `${id}-${idx}.jpg` // Always save as JPEG for consistency
-      
-      // Compress and save image
+      const filename = `${id}-${idx}.jpg`
       const savedPath = await compressImage(buffer, filename)
       images.push(savedPath)
     }
-    
     imagePath = images[0] || ''
   } else if (body.imageBase64) {
     const matches = body.imageBase64.match(/^data:(.+);base64,(.+)$/)
@@ -92,12 +134,12 @@ export async function POST(req: Request) {
     
     const buffer = Buffer.from(b64, 'base64')
     const filename = `${id}.jpg`
-    
-    // Compress and save image
     imagePath = await compressImage(buffer, filename)
     images.push(imagePath)
   }
 
+  const features = body.features ? (Array.isArray(body.features) ? body.features : []) : []
+  
   const vehicle = {
     id,
     title: body.title || 'Untitled',
@@ -112,12 +154,12 @@ export async function POST(req: Request) {
     make: body.make || '',
     model: body.model || '',
     bodyType: body.bodyType || '',
-    features: Array.isArray(body.features) ? body.features : [],
+    features,
     location: body.location || '',
     isFeatured: Boolean(body.isFeatured),
     status: 'active',
     views: 0,
-    dealerId: body.dealerId || null,
+    dealerId: body.dealerId ? Number(body.dealerId) : null,
     createdAt: new Date().toISOString(),
   }
 
