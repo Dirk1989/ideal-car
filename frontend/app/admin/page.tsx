@@ -38,6 +38,11 @@ interface BlogPost {
   status: 'published' | 'draft'
   views: number
   createdAt: string
+  image?: string
+  content?: string
+  readTime?: string
+  date?: string
+  updatedAt?: string
 }
 
 interface Dealer {
@@ -72,6 +77,8 @@ export default function AdminPage() {
   const [showEditCarModal, setShowEditCarModal] = useState(false)
   const [editingCar, setEditingCar] = useState<CarListing | null>(null)
   const [showAddBlogModal, setShowAddBlogModal] = useState(false)
+  const [showEditBlogModal, setShowEditBlogModal] = useState(false)
+  const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null)
   const [showAddDealerModal, setShowAddDealerModal] = useState(false)
 
   // Data
@@ -396,6 +403,9 @@ export default function AdminPage() {
         setBlogPosts((prev) => [created, ...prev])
         form.reset()
         setShowAddBlogModal(false)
+        setShowToast(true)
+        setToastMessage('Blog created successfully!')
+        setTimeout(() => setShowToast(false), 3000)
       } else {
         console.error('Failed to create blog', res.status)
         alert('Failed to create blog')
@@ -403,6 +413,61 @@ export default function AdminPage() {
     } catch (err) {
       console.error(err)
       alert('Failed to create blog')
+    }
+  }
+
+  const handleUpdateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!editingBlog) return
+
+    const form = e.currentTarget
+    const data = new FormData(form)
+    const title = String(data.get('title') || '')
+    const excerpt = String(data.get('excerpt') || '')
+    const category = String(data.get('category') || 'General')
+    const author = String(data.get('author') || 'Admin')
+    const status = String(data.get('status') || 'published')
+    const readTime = String(data.get('readTime') || '3 min read')
+    const content = String(data.get('content') || '')
+
+    const file = data.get('image') as File | null
+    let imageBase64: string | undefined
+
+    if (file && file.size > 0) {
+      try {
+        setUploading(true)
+        imageBase64 = await toBase64(file) || undefined
+      } catch (e) {
+        console.error('Failed to convert blog image', e)
+      } finally {
+        setUploading(false)
+      }
+    }
+
+    const payload = { id: editingBlog.id, title, excerpt, content, category, author, status, readTime, imageBase64 }
+
+    try {
+      const res = await fetch(`/api/blogs/${editingBlog.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (res.ok) {
+        const updated = await res.json()
+        setBlogPosts((prev) => prev.map((b) => (b.id === updated.id ? updated : b)))
+        form.reset()
+        setShowEditBlogModal(false)
+        setEditingBlog(null)
+        setShowToast(true)
+        setToastMessage('Blog updated successfully!')
+        setTimeout(() => setShowToast(false), 3000)
+      } else {
+        console.error('Failed to update blog', res.status)
+        alert('Failed to update blog')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Failed to update blog')
     }
   }
 
@@ -801,7 +866,16 @@ export default function AdminPage() {
                           <td className="py-3 px-2 md:px-4 text-xs hidden sm:table-cell">
                             {blog.views.toLocaleString()}
                           </td>
-                          <td className="py-3 px-2 md:px-4">
+                          <td className="py-3 px-2 md:px-4 flex gap-1">
+                            <button
+                              onClick={() => {
+                                setEditingBlog(blog)
+                                setShowEditBlogModal(true)
+                              }}
+                              className="p-1 md:p-2 hover:bg-blue-50 rounded text-blue-600"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </button>
                             <button
                               onClick={() => handleDeleteBlog(blog.id)}
                               className="p-1 md:p-2 hover:bg-red-50 rounded text-red-600"
@@ -990,6 +1064,136 @@ export default function AdminPage() {
                 }`}
               >
                 {uploading ? 'Uploading...' : 'Create Post'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {showEditBlogModal && editingBlog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2 sm:p-4 overflow-y-auto">
+          <form onSubmit={handleUpdateBlog} className="bg-white rounded-xl p-3 sm:p-4 md:p-6 w-full max-w-2xl my-4 sm:my-8">
+            <div className="flex justify-between items-center mb-3 sm:mb-4 md:mb-6">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold">Edit Blog Post</h3>
+              <button 
+                type="button" 
+                onClick={() => {
+                  setShowEditBlogModal(false)
+                  setEditingBlog(null)
+                }} 
+                className="text-gray-500 hover:text-gray-700 p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 md:gap-4 max-h-[70vh] overflow-y-auto pr-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Title *</label>
+                <input 
+                  name="title" 
+                  required 
+                  defaultValue={editingBlog.title}
+                  placeholder="Enter blog post title" 
+                  className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Excerpt *</label>
+                <textarea 
+                  name="excerpt" 
+                  required 
+                  defaultValue={editingBlog.excerpt}
+                  placeholder="Brief summary of the post" 
+                  className="border p-2 md:p-3 rounded h-20 w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <input 
+                    name="category" 
+                    placeholder="e.g. Vehicle Maintenance" 
+                    defaultValue={editingBlog.category}
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Author</label>
+                  <input 
+                    name="author" 
+                    placeholder="Author name" 
+                    defaultValue={editingBlog.author}
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <select 
+                    name="status" 
+                    defaultValue={editingBlog.status}
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Read Time</label>
+                  <input 
+                    name="readTime" 
+                    placeholder="e.g. 5 min read" 
+                    defaultValue={editingBlog.readTime}
+                    className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Image {editingBlog.image && '(leave empty to keep current)'}</label>
+                <input 
+                  name="image" 
+                  type="file" 
+                  accept="image/*" 
+                  className="border p-2 md:p-3 rounded w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Content</label>
+                <textarea 
+                  name="content" 
+                  placeholder="Full article content (supports basic markdown)" 
+                  defaultValue={editingBlog.content}
+                  className="border p-2 md:p-3 rounded h-32 w-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+              <button 
+                type="button" 
+                onClick={() => {
+                  setShowEditBlogModal(false)
+                  setEditingBlog(null)
+                }} 
+                className="px-3 sm:px-4 py-2 rounded border border-gray-300 hover:bg-gray-50 text-xs sm:text-sm font-medium"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                disabled={uploading}
+                className={`px-3 sm:px-4 py-2 rounded text-white font-medium text-xs sm:text-sm ${
+                  uploading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                {uploading ? 'Uploading...' : 'Update Post'}
               </button>
             </div>
           </form>
