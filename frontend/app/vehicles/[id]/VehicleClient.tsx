@@ -305,7 +305,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 {images.length > 0 ? (
                   <>
-                    <div className="relative w-full aspect-video md:aspect-video group bg-gray-50 max-h-96">
+                    <div className="relative w-full aspect-video group bg-gray-50">
                       <img 
                         src={images[currentImageIndex]} 
                         alt={vehicle.title}
@@ -355,7 +355,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
                     )}
                   </>
                 ) : (
-                  <div className="aspect-video md:aspect-video bg-gradient-to-br from-blue-100 to-gray-200 flex items-center justify-center max-h-96">
+                  <div className="aspect-video bg-gradient-to-br from-blue-100 to-gray-200 flex items-center justify-center">
                     <div className="text-4xl md:text-6xl">🚗</div>
                   </div>
                 )}
