@@ -4,7 +4,9 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function SiteBrand() {
-  const [site, setSite] = useState<{ siteName: string; tagline?: string } | null>(null)
+  const [site, setSite] = useState<{ siteName: string; tagline?: string } | null>(
+    { siteName: 'IdealCar', tagline: 'Find Your Ideal Drive' }
+  )
 
   useEffect(() => {
     let mounted = true
@@ -29,7 +31,7 @@ export default function SiteBrand() {
           <span className="text-gray-900">Ideal</span>
           <span className="text-blue-600">Car</span>
         </span>
-        <span className="text-xs text-gray-500 -mt-1">{site?.tagline || 'Car Marketplace'}</span>
+        <span className="text-xs text-gray-500 -mt-1">{site?.tagline}</span>
       </div>
     </Link>
   )
