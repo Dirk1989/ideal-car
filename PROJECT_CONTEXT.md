@@ -1,8 +1,9 @@
 # IdealCar Project Context & Memory
 
-**Last Updated:** January 19, 2026  
+**Last Updated:** January 19, 2026 (Evening - Blog Edit & Dealer Management)
 **Status:** Live in Production  
 **Server:** Hetzner Cloud (116.203.229.47)
+**Latest Commits:** 0ee53f6 (Blog Edit), 8571606 (Dealer Management)
 
 ---
 
@@ -105,6 +106,33 @@ ideal-car/
 ---
 
 ## 🔑 Key Features & Recent Fixes
+
+### Blog Edit Functionality (✅ Jan 19, 2026 - Evening)
+- **Added:** Full blog editing capability with image replacement
+- **Files Modified:**
+  - `/frontend/app/admin/page.tsx` - Added edit button, modal form, handleUpdateBlog handler
+  - `/frontend/app/api/blogs/[id]/route.ts` - New dynamic route for PUT requests
+- **Features:**
+  - Edit button on each blog row in admin panel
+  - Pre-filled modal form with existing blog data
+  - Image upload/replacement (old image deleted when replaced)
+  - Toast notification on update
+  - Image compression with Sharp (quality 80, max 1920x1080px)
+- **Location:** `/frontend/app/admin/page.tsx` (search: "handleUpdateBlog")
+
+### Dealer Management (✅ Jan 19, 2026 - Evening)
+- **Added:** Complete CRUD operations for dealers (was missing from UI)
+- **Files Modified:**
+  - `/frontend/app/admin/page.tsx` - Added dealers tab content, modals, handlers
+- **Features:**
+  - Dealers tab now shows all dealers in responsive table
+  - Add Dealer button opens modal form
+  - Edit button for each dealer (pre-filled modal)
+  - Delete button with confirmation
+  - Toast notifications
+  - Real-time UI updates
+- **API:** Already existed (`/api/dealers`) - just needed UI implementation
+- **Location:** `/frontend/app/admin/page.tsx` (search: "activeTab === 'dealers'")
 
 ### Image Processing (✅ Jan 19, 2026)
 - **Aggressive Compression:** Quality 65, max 1600x900px, progressive JPEG
@@ -371,6 +399,54 @@ Location: `/frontend/app/api/auth/route.ts` (hardcoded check)
    - Keeps backward compatibility with pre-image-array listings
 
 3. **Static page generation:** Detail pages are pre-rendered at build time
+   - Vehicle & blog pages are SSG (Static Site Generation)
+   - Requires rebuild + restart to show updates
+
+4. **Blog images:** Stored in `/public/uploads/` with ID-based naming (`{id}.jpg`)
+   - Different compression settings than vehicles (quality 80 vs 65)
+   - Should upload new image to test social sharing meta tags
+
+---
+
+## 🚀 Admin Panel Status (Jan 19, 2026)
+
+| Section | Status | Notes |
+|---------|--------|-------|
+| Overview | ✅ Complete | Stats, recent activity |
+| Car Listings | ✅ Complete | Create, edit, delete vehicles with image upload |
+| Blogs | ✅ Complete | Create, edit, delete blog posts with images |
+| Dealers | ✅ Complete | Create, edit, delete dealers (fixed today) |
+| Leads | ✅ Complete | View recent form submissions |
+| Settings | 🟡 Partial | Only site name/tagline editable |
+
+---
+
+## 🔍 Admin Features Implemented
+
+- ✅ Vehicle CRUD with multi-image upload and compression
+- ✅ Blog CRUD with image upload and edit capability
+- ✅ Dealer CRUD (add, edit, delete)
+- ✅ Lead tracking and viewing
+- ✅ Toast notifications on all actions
+- ✅ Form pre-population for edits
+- ✅ Responsive mobile/desktop UI
+- ✅ Authentication (hardcoded: admin/admin123)
+- ✅ Search functionality
+- ✅ Filtering and sorting
+
+---
+
+## 📋 Recent Commits (Jan 19, 2026)
+
+| Commit | Message | What Changed |
+|--------|---------|--------------|
+| 0ee53f6 | Add blog edit functionality | Blog edit button, modal, PUT endpoint |
+| 8571606 | Add dealer management | Dealers tab UI, CRUD handlers, modals |
+| 4d721bf | Update homepage messaging | Changed fake stats to honest launch copy |
+| 8b2a0be | Update about page copy | Replaced generic copy with launch-stage messaging |
+| 7e07dd9 | Remove exposed credentials | Removed admin creds from docs |
+| c99da09 | Fix tagline flash | Initialize SiteBrand with correct default |
+| 5068309 | Fix form pre-population | Added defaultValue to vehicle form inputs |
    - Requires rebuild/restart to show updated images
 
 4. **Aggressive image compression:** Quality 65 balances file size (~300KB) vs visual quality
