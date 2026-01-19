@@ -1,0 +1,149 @@
+{
+  "makes": [
+    {
+      "id": "toyota",
+      "name": "Toyota",
+      "models": ["Aygo", "Corolla", "Camry", "Prius", "Yaris", "RAV4", "Fortuner", "Hiace", "Hilux", "Land Cruiser", "Rush"]
+    },
+    {
+      "id": "volkswagen",
+      "name": "Volkswagen",
+      "models": ["Golf", "Polo", "Jetta", "Passat", "Tiguan", "Touareg", "T-Cross", "Amarok", "Transporter"]
+    },
+    {
+      "id": "ford",
+      "name": "Ford",
+      "models": ["Fiesta", "Focus", "Mustang", "Ranger", "EcoSport", "Kuga", "Everest", "Territory"]
+    },
+    {
+      "id": "bmw",
+      "name": "BMW",
+      "models": ["116", "118", "120", "3 Series", "5 Series", "7 Series", "X1", "X3", "X5", "X7", "Z4"]
+    },
+    {
+      "id": "mercedes",
+      "name": "Mercedes-Benz",
+      "models": ["A-Class", "C-Class", "E-Class", "S-Class", "GLA", "GLC", "GLE", "GLS", "Sprinter"]
+    },
+    {
+      "id": "audi",
+      "name": "Audi",
+      "models": ["A1", "A3", "A4", "A6", "A8", "Q2", "Q3", "Q5", "Q7", "Q8"]
+    },
+    {
+      "id": "hyundai",
+      "name": "Hyundai",
+      "models": ["i10", "i20", "Elantra", "Sonata", "Tucson", "Santa Fe", "Creta", "Venue", "Accent"]
+    },
+    {
+      "id": "kia",
+      "name": "Kia",
+      "models": ["Picanto", "Rio", "Cerato", "Sorento", "Sportage", "Niro", "Telluride", "EV6"]
+    },
+    {
+      "id": "nissan",
+      "name": "Nissan",
+      "models": ["Micra", "Almera", "Sentra", "X-Trail", "Qashqai", "Navara", "NP200", "Leaf"]
+    },
+    {
+      "id": "mazda",
+      "name": "Mazda",
+      "models": ["Mazda2", "Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9", "MX-5", "BT-50"]
+    },
+    {
+      "id": "honda",
+      "name": "Honda",
+      "models": ["Jazz", "Civic", "Accord", "CR-V", "Pilot", "HR-V", "City"]
+    },
+    {
+      "id": "isuzu",
+      "name": "Isuzu",
+      "models": ["D-Max", "KB", "MU-X", "NPR"]
+    },
+    {
+      "id": "mitsubishi",
+      "name": "Mitsubishi",
+      "models": ["Mirage", "Lancer", "Outlander", "Pajero", "ASX", "L200", "Canter"]
+    },
+    {
+      "id": "chevrolet",
+      "name": "Chevrolet",
+      "models": ["Spark", "Sonic", "Cruze", "Malibu", "Equinox", "Traverse", "Trailblazer"]
+    },
+    {
+      "id": "jeep",
+      "name": "Jeep",
+      "models": ["Wrangler", "Cherokee", "Grand Cherokee", "Compass", "Renegade"]
+    },
+    {
+      "id": "peugeot",
+      "name": "Peugeot",
+      "models": ["208", "308", "408", "3008", "5008", "Partner"]
+    },
+    {
+      "id": "renault",
+      "name": "Renault",
+      "models": ["Kwid", "Clio", "Duster", "Captur", "Sandero"]
+    },
+    {
+      "id": "dacia",
+      "name": "Dacia",
+      "models": ["Sandero", "Duster", "Lodgy", "Logan"]
+    },
+    {
+      "id": "subaru",
+      "name": "Subaru",
+      "models": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek"]
+    },
+    {
+      "id": "suzuki",
+      "name": "Suzuki",
+      "models": ["Alto", "Swift", "Baleno", "Vitara", "Jimny", "S-Presso"]
+    },
+    {
+      "id": "tata",
+      "name": "Tata",
+      "models": ["Nexon", "Punch", "Tiago", "Tigor", "Safari"]
+    },
+    {
+      "id": "mahindra",
+      "name": "Mahindra",
+      "models": ["XUV300", "XUV500", "Bolero", "TUV300", "Scorpio"]
+    },
+    {
+      "id": "lexus",
+      "name": "Lexus",
+      "models": ["CT200h", "IS", "GS", "LS", "RX", "NX", "LX"]
+    },
+    {
+      "id": "volvo",
+      "name": "Volvo",
+      "models": ["S60", "S90", "XC40", "XC60", "XC90"]
+    },
+    {
+      "id": "fiat",
+      "name": "Fiat",
+      "models": ["500", "Panda", "Tipo", "Ducato"]
+    },
+    {
+      "id": "changan",
+      "name": "Changan",
+      "models": ["CS35", "CS75", "Alsvin"]
+    },
+    {
+      "id": "baic",
+      "name": "BAIC",
+      "models": ["D20", "X35", "X55"]
+    },
+    {
+      "id": "mg",
+      "name": "MG",
+      "models": ["MG3", "MG5", "ZS", "HS", "RX5"]
+    },
+    {
+      "id": "chery",
+      "name": "Chery",
+      "models": ["QQ", "A3", "Tiggo"]
+    }
+  ]
+}

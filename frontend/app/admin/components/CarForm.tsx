@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
 import DealerSelector from './DealerSelector'
 
@@ -22,6 +22,14 @@ interface Dealer {
   address: string
 }
 
+interface CarMakesData {
+  makes: Array<{
+    id: string
+    name: string
+    models: string[]
+  }>
+}
+
 export default function CarForm({
   isOpen,
   onClose,
@@ -39,6 +47,37 @@ export default function CarForm({
   const [mainIndex, setMainIndex] = useState<number | null>(null)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadProgress, setUploadProgress] = useState<number[]>([])
+  const [carMakes, setCarMakes] = useState<CarMakesData['makes']>([])
+  const [selectedMake, setSelectedMake] = useState<string>(editingCar?.make || '')
+  const [availableModels, setAvailableModels] = useState<string[]>([])
+
+  // Load car makes data
+  useEffect(() => {
+    const loadCarMakes = async () => {
+      try {
+        const res = await fetch('/data/carMakes.json')
+        const data: CarMakesData = await res.json()
+        setCarMakes(data.makes)
+        
+        // If editing, set available models for selected make
+        if (editingCar?.make) {
+          const makeData = data.makes.find(m => m.name === editingCar.make)
+          if (makeData) {
+            setAvailableModels(makeData.models)
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load car makes', e)
+      }
+    }
+    loadCarMakes()
+  }, [editingCar])
+
+  const handleMakeChange = (make: string) => {
+    setSelectedMake(make)
+    const makeData = carMakes.find(m => m.name === make)
+    setAvailableModels(makeData?.models || [])
+  }
 
   if (!isOpen) return null
 
@@ -139,6 +178,42 @@ export default function CarForm({
             />
 
             {/* Basic info */}
+            <div>
+              <label className="text-xs sm:text-sm text-gray-700 block mb-1">Make *</label>
+              <select
+                name="make"
+                required
+                value={selectedMake}
+                onChange={(e) => handleMakeChange(e.target.value)}
+                className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Make</option>
+                {carMakes.map((make) => (
+                  <option key={make.id} value={make.name}>
+                    {make.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-xs sm:text-sm text-gray-700 block mb-1">Model *</label>
+              <select
+                name="model"
+                required
+                defaultValue={editingCar?.model || ''}
+                disabled={!selectedMake}
+                className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+              >
+                <option value="">Select Model</option>
+                {availableModels.map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <input
               name="title"
               required
