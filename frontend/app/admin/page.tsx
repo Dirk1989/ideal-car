@@ -84,6 +84,7 @@ export default function AdminPage() {
   const [siteName, setSiteName] = useState<string>('')
   const [tagline, setTagline] = useState<string>('')
   const [uploading, setUploading] = useState(false)
+  const [selectedDealer, setSelectedDealer] = useState<number | null>(null)
 
   // Toast notification
   const [showToast, setShowToast] = useState(false)
