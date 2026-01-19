@@ -297,10 +297,10 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
 
       {/* Content */}
       <section className="w-full overflow-x-hidden">
-        <div className="container-custom py-12 md:py-16">
-          <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+        <div className="container-custom py-8 md:py-12 lg:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {/* Left Column - Images & Details */}
-            <div className="lg:col-span-2 space-y-6 md:space-y-8">
+            <div className="lg:col-span-2 space-y-6 md:space-y-8 order-2 lg:order-1">
               {/* Image Gallery with Carousel */}
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 {images.length > 0 ? (
@@ -458,8 +458,8 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
             </div>
 
             {/* Right Column - Contact */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 lg:sticky lg:top-8">
+            <div className="lg:col-span-1 order-1 lg:order-2">
+              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 lg:p-12 lg:sticky lg:top-8">
                 <h2 className="text-2xl font-bold mb-6">Contact Seller</h2>
                 
                 {vehicle.sellerName && (
