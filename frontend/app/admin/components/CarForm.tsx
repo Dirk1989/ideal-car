@@ -118,8 +118,8 @@ export default function CarForm({
     const urls: string[] = []
     for (const f of arr) {
       if (!f.type.startsWith('image/')) continue
-      if (f.size > 5 * 1024 * 1024) {
-        setUploadError('Each image must be smaller than 5MB')
+      if (f.size > 20 * 1024 * 1024) {
+        setUploadError('Each image must be smaller than 20MB (will be compressed on server)')
         continue
       }
       valid.push(f)
