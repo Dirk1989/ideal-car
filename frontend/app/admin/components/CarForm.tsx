@@ -137,16 +137,6 @@ export default function CarForm({
     const form = e.currentTarget
     const formData = new FormData(form)
 
-    // Add custom make if using custom
-    if (useCustomMake && customMake) {
-      formData.set('make', customMake)
-    }
-
-    // Add custom model if using custom
-    if (useCustomModel && customModel) {
-      formData.set('model', customModel)
-    }
-
     // Add images
     for (const file of selectedFiles) {
       formData.append('images', file)
@@ -204,6 +194,8 @@ export default function CarForm({
               {!useCustomMake ? (
                 <div className="space-y-2">
                   <select
+                    name="make"
+                    required
                     value={selectedMake}
                     onChange={(e) => handleMakeChange(e.target.value)}
                     className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -226,7 +218,9 @@ export default function CarForm({
               ) : (
                 <div className="space-y-2">
                   <input
+                    name="make"
                     type="text"
+                    required
                     value={customMake}
                     onChange={(e) => setCustomMake(e.target.value)}
                     placeholder="Enter make name"
