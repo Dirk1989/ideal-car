@@ -50,6 +50,10 @@ export default function CarForm({
   const [carMakes, setCarMakes] = useState<CarMakesData['makes']>([])
   const [selectedMake, setSelectedMake] = useState<string>(editingCar?.make || '')
   const [availableModels, setAvailableModels] = useState<string[]>([])
+  const [useCustomMake, setUseCustomMake] = useState<boolean>(!carMakes.find(m => m.name === editingCar?.make))
+  const [useCustomModel, setUseCustomModel] = useState<boolean>(!availableModels.includes(editingCar?.model))
+  const [customMake, setCustomMake] = useState<string>(editingCar?.make || '')
+  const [customModel, setCustomModel] = useState<string>(editingCar?.model || '')
 
   // Load car makes data
   useEffect(() => {
@@ -64,6 +68,10 @@ export default function CarForm({
           const makeData = data.makes.find(m => m.name === editingCar.make)
           if (makeData) {
             setAvailableModels(makeData.models)
+            setUseCustomModel(!makeData.models.includes(editingCar.model))
+          } else {
+            setUseCustomMake(true)
+            setCustomMake(editingCar.make)
           }
         }
       } catch (e) {
@@ -75,8 +83,11 @@ export default function CarForm({
 
   const handleMakeChange = (make: string) => {
     setSelectedMake(make)
+    setCustomMake(make)
     const makeData = carMakes.find(m => m.name === make)
     setAvailableModels(makeData?.models || [])
+    setUseCustomModel(false)
+    setCustomModel('')
   }
 
   if (!isOpen) return null
@@ -125,6 +136,16 @@ export default function CarForm({
     e.preventDefault()
     const form = e.currentTarget
     const formData = new FormData(form)
+
+    // Add custom make if using custom
+    if (useCustomMake && customMake) {
+      formData.set('make', customMake)
+    }
+
+    // Add custom model if using custom
+    if (useCustomModel && customModel) {
+      formData.set('model', customModel)
+    }
 
     // Add images
     for (const file of selectedFiles) {
@@ -180,37 +201,117 @@ export default function CarForm({
             {/* Basic info */}
             <div>
               <label className="text-xs sm:text-sm text-gray-700 block mb-1">Make *</label>
-              <select
-                name="make"
-                required
-                value={selectedMake}
-                onChange={(e) => handleMakeChange(e.target.value)}
-                className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Make</option>
-                {carMakes.map((make) => (
-                  <option key={make.id} value={make.name}>
-                    {make.name}
-                  </option>
-                ))}
-              </select>
+              {!useCustomMake ? (
+                <div className="space-y-2">
+                  <select
+                    value={selectedMake}
+                    onChange={(e) => handleMakeChange(e.target.value)}
+                    className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select Make</option>
+                    {carMakes.map((make) => (
+                      <option key={make.id} value={make.name}>
+                        {make.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => setUseCustomMake(true)}
+                    className="text-xs text-blue-600 hover:underline"
+                  >
+                    Can't find your make? Add custom
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <input
+                    type="text"
+                    value={customMake}
+                    onChange={(e) => setCustomMake(e.target.value)}
+                    placeholder="Enter make name"
+                    className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUseCustomMake(false)
+                      setSelectedMake('')
+                      setCustomMake('')
+                    }}
+                    className="text-xs text-blue-600 hover:underline"
+                  >
+                    Choose from list
+                  </button>
+                </div>
+              )}
             </div>
 
             <div>
               <label className="text-xs sm:text-sm text-gray-700 block mb-1">Model *</label>
+              {!useCustomModel && selectedMake ? (
+                <div className="space-y-2">
+                  <select
+                    name="model"
+                    required
+                    defaultValue={editingCar?.model || ''}
+                    className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select Model</option>
+                    {availableModels.map((model) => (
+                      <option key={model} value={model}>
+                        {model}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => setUseCustomModel(true)}
+                    className="text-xs text-blue-600 hover:underline"
+                  >
+                    Add custom model
+                  </button>
+                </div>
+              ) : useCustomModel || !selectedMake ? (
+                <div className="space-y-2">
+                  <input
+                    name="model"
+                    type="text"
+                    required
+                    value={customModel}
+                    onChange={(e) => setCustomModel(e.target.value)}
+                    placeholder="Enter model name"
+                    className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  {selectedMake && (
+                    <button
+                      type="button"
+                      onClick={() => setUseCustomModel(false)}
+                      className="text-xs text-blue-600 hover:underline"
+                    >
+                      Choose from list
+                    </button>
+                  )}
+                </div>
+              ) : null}
+            </div>
+
+            {/* Body Type */}
+            <div>
+              <label className="text-xs sm:text-sm text-gray-700 block mb-1">Body Type *</label>
               <select
-                name="model"
+                name="bodyType"
                 required
-                defaultValue={editingCar?.model || ''}
-                disabled={!selectedMake}
-                className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                defaultValue={editingCar?.bodyType || ''}
+                className="w-full border p-2 md:p-3 rounded text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">Select Model</option>
-                {availableModels.map((model) => (
-                  <option key={model} value={model}>
-                    {model}
-                  </option>
-                ))}
+                <option value="">Select Body Type</option>
+                <option value="Sedan">Sedan</option>
+                <option value="SUV">SUV</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Bakkie">Bakkie (Pickup)</option>
+                <option value="Convertible">Convertible</option>
+                <option value="Panelvan">Panelvan</option>
               </select>
             </div>
 
