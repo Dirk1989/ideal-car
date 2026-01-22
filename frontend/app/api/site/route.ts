@@ -117,3 +117,48 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Failed to update site config' }, { status: 500 })
   }
 }
+
+export async function PUT(req: Request) {
+  // update site config: accepts JSON with siteName, tagline and/or FormData with heroImages
+  ensureStorage()
+  try {
+    const contentType = req.headers.get('content-type') || ''
+    const raw = fs.readFileSync(DATA_FILE, 'utf8')
+    const cfg = JSON.parse(raw || '{}')
+
+    if (contentType.includes('application/json')) {
+      // JSON body
+      const body = await req.json()
+      
+      if (body.siteName) cfg.siteName = String(body.siteName)
+      if (body.tagline) cfg.tagline = String(body.tagline)
+    } else if (contentType.includes('multipart/form-data')) {
+      // FormData with files
+      const formData = await req.formData()
+      
+      // Handle hero images
+      const heroImages = formData.getAll('heroImages') as File[]
+      if (heroImages && heroImages.length > 0) {
+        const saved: string[] = []
+        const id = Date.now()
+        
+        for (let idx = 0; idx < heroImages.length; idx++) {
+          const file = heroImages[idx]
+          const buffer = await file.arrayBuffer()
+          const filename = `hero-${id}-${idx}.webp`
+          
+          const savedPath = await compressImage(Buffer.from(buffer), filename)
+          saved.push(savedPath)
+        }
+        
+        cfg.heroImages = saved
+      }
+    }
+
+    fs.writeFileSync(DATA_FILE, JSON.stringify(cfg, null, 2))
+    return NextResponse.json(cfg)
+  } catch (error) {
+    console.error('PUT /api/site error:', error)
+    return NextResponse.json({ error: 'Failed to update site config' }, { status: 500 })
+  }
+}
