@@ -217,6 +217,39 @@ export async function POST(req: Request) {
     arr.unshift(vehicle)
     fs.writeFileSync(DATA_FILE, JSON.stringify(arr, null, 2))
 
+    // Auto-save make and model to carMakes.json
+    if (body.make || body.model) {
+      try {
+        const carMakesFile = path.join(process.cwd(), 'data', 'carMakes.json')
+        const carMakesRaw = fs.readFileSync(carMakesFile, 'utf8')
+        let carMakesData = JSON.parse(carMakesRaw || '{"makes": []}')
+        
+        if (!carMakesData.makes) carMakesData.makes = []
+        
+        // Find or create make
+        let makeEntry = carMakesData.makes.find((m: any) => m.name.toLowerCase() === (body.make || '').toLowerCase())
+        
+        if (!makeEntry && body.make) {
+          makeEntry = {
+            id: body.make.toLowerCase().replace(/\s+/g, '-'),
+            name: body.make,
+            models: body.model ? [body.model] : []
+          }
+          carMakesData.makes.push(makeEntry)
+        } else if (makeEntry && body.model && !makeEntry.models.includes(body.model)) {
+          makeEntry.models.push(body.model)
+        }
+        
+        // Sort
+        carMakesData.makes.sort((a: any, b: any) => a.name.localeCompare(b.name))
+        carMakesData.makes.forEach((m: any) => { m.models.sort() })
+        
+        fs.writeFileSync(carMakesFile, JSON.stringify(carMakesData, null, 2))
+      } catch (makeErr) {
+        console.error('Error auto-saving make/model:', makeErr)
+      }
+    }
+
     return NextResponse.json(vehicle, { status: 201 })
   } catch (err) {
     console.error('POST /api/vehicles error:', err)
@@ -293,6 +326,40 @@ export async function PUT(req: Request) {
 
     arr[idx] = updated
     fs.writeFileSync(DATA_FILE, JSON.stringify(arr, null, 2))
+    
+    // Auto-save make and model to carMakes.json
+    if (body.make || body.model) {
+      try {
+        const carMakesFile = path.join(process.cwd(), 'data', 'carMakes.json')
+        const carMakesRaw = fs.readFileSync(carMakesFile, 'utf8')
+        let carMakesData = JSON.parse(carMakesRaw || '{"makes": []}')
+        
+        if (!carMakesData.makes) carMakesData.makes = []
+        
+        // Find or create make
+        let makeEntry = carMakesData.makes.find((m: any) => m.name.toLowerCase() === (body.make || '').toLowerCase())
+        
+        if (!makeEntry && body.make) {
+          makeEntry = {
+            id: body.make.toLowerCase().replace(/\s+/g, '-'),
+            name: body.make,
+            models: body.model ? [body.model] : []
+          }
+          carMakesData.makes.push(makeEntry)
+        } else if (makeEntry && body.model && !makeEntry.models.includes(body.model)) {
+          makeEntry.models.push(body.model)
+        }
+        
+        // Sort
+        carMakesData.makes.sort((a: any, b: any) => a.name.localeCompare(b.name))
+        carMakesData.makes.forEach((m: any) => { m.models.sort() })
+        
+        fs.writeFileSync(carMakesFile, JSON.stringify(carMakesData, null, 2))
+      } catch (makeErr) {
+        console.error('Error auto-saving make/model:', makeErr)
+      }
+    }
+    
     return NextResponse.json(updated, { status: 200 })
   } catch (e) {
     console.error(e)

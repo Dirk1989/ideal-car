@@ -1090,6 +1090,102 @@ export default function AdminPage() {
                 </div>
               </div>
             )}
+
+            {/* Settings Tab */}
+            {activeTab === 'settings' && (
+              <div className="bg-white rounded-lg md:rounded-xl border border-gray-200 p-4 md:p-6">
+                <h2 className="text-lg md:text-2xl font-bold mb-6">Settings</h2>
+                
+                <div className="space-y-6 max-w-2xl">
+                  {/* Hero Images */}
+                  <div className="border-b pb-6">
+                    <h3 className="text-lg font-semibold mb-4">Hero Images</h3>
+                    <p className="text-sm text-gray-600 mb-4">Upload images for the homepage slider</p>
+                    <div className="flex gap-3">
+                      <input 
+                        type="file" 
+                        multiple 
+                        accept="image/*" 
+                        id="heroImages"
+                        onChange={(e) => {
+                          const files = e.currentTarget.files
+                          if (files && files.length > 0) {
+                            const formData = new FormData()
+                            for (let i = 0; i < files.length; i++) {
+                              formData.append('heroImages', files[i])
+                            }
+                            fetch('/api/site', {
+                              method: 'PUT',
+                              body: formData,
+                            }).then(() => {
+                              setToastMessage('✅ Hero images updated!')
+                              setShowToast(true)
+                              setTimeout(() => setShowToast(false), 3000)
+                            }).catch(() => {
+                              setToastMessage('❌ Failed to upload hero images')
+                              setShowToast(true)
+                              setTimeout(() => setShowToast(false), 3000)
+                            })
+                          }
+                        }}
+                        className="border p-2 rounded w-full text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Site Name & Tagline */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Site Information</h3>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Site Name</label>
+                        <input 
+                          type="text" 
+                          value={siteName}
+                          onChange={(e) => setSiteName(e.target.value)}
+                          placeholder="IdealCar" 
+                          className="border p-2 rounded w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                        <input 
+                          type="text" 
+                          value={tagline}
+                          onChange={(e) => setTagline(e.target.value)}
+                          placeholder="Your car marketplace" 
+                          className="border p-2 rounded w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={async () => {
+                      try {
+                        const res = await fetch('/api/site', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ siteName, tagline }),
+                        })
+                        if (res.ok) {
+                          setToastMessage('✅ Site settings updated!')
+                          setShowToast(true)
+                          setTimeout(() => setShowToast(false), 3000)
+                        }
+                      } catch (e) {
+                        setToastMessage('❌ Failed to update settings')
+                        setShowToast(true)
+                        setTimeout(() => setShowToast(false), 3000)
+                      }
+                    }}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded"
+                  >
+                    Save Settings
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>
