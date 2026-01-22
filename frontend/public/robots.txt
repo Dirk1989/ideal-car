@@ -1,7 +1,10 @@
 ﻿User-agent: *
 Allow: /
+Allow: /api/blogs
+Allow: /api/site
+Allow: /api/vehicles
 Disallow: /admin
-Disallow: /api
+Disallow: /api/admin
 Disallow: /webmail
 Disallow: /mail
 Disallow: /cpanel

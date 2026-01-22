@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 const HeroSection = () => {
   const router = useRouter()
   const [currentImage, setCurrentImage] = useState(0)
-  const [images, setImages] = useState<string[]>(['/hero-1.jpg','/hero-2.jpg','/hero-3.jpg'])
+  const [images, setImages] = useState<string[]>(['/uploads/hero-1768243256340-0.jpg','/uploads/hero-1768243256340-1.jpg','/uploads/hero-1768243256340-2.jpg'])
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
