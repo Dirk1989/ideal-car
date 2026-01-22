@@ -18,13 +18,13 @@ const Footer = () => {
                 South Africa's premier car advertising platform connecting buyers and sellers.
               </p>
               <div className="flex space-x-4">
-                <a href="https://facebook.com/idealdealsza" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-blue-600 transition-colors">
+                <a href="https://facebook.com/idealdealsza" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-blue-600 transition-colors" aria-label="Follow IdealCar on Facebook">
                   <Facebook size={20} />
                 </a>
-                <a href="https://twitter.com/idealcarsa" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-blue-400 transition-colors">
+                <a href="https://twitter.com/idealcarsa" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-blue-400 transition-colors" aria-label="Follow IdealCar on Twitter">
                   <Twitter size={20} />
                 </a>
-                <a href="https://instagram.com/idealcarsa" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-pink-600 transition-colors">
+                <a href="https://instagram.com/idealcarsa" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-pink-600 transition-colors" aria-label="Follow IdealCar on Instagram">
                   <Instagram size={20} />
                 </a>
               </div>

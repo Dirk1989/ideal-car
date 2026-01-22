@@ -516,6 +516,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
                 <div className="flex gap-3">
                   <button 
                     onClick={handleSave}
+                    aria-label="Save this vehicle"
                     className="flex-1 flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-lg transition-colors"
                   >
                     <Heart className="w-5 h-5" />
@@ -523,6 +524,7 @@ export default function VehicleClient({ vehicle }: { vehicle: Vehicle }) {
                   </button>
                   <button 
                     onClick={handleShare}
+                    aria-label="Share this vehicle"
                     className="flex-1 flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-lg transition-colors"
                   >
                     <Share2 className="w-5 h-5" />
