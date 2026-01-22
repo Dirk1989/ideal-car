@@ -135,13 +135,19 @@ export default function RootLayout({
           * { box-sizing: border-box; }
         `}</style>
         
-        {/* Load full CSS asynchronously to prevent render blocking on mobile */}
+        {/* Load CSS asynchronously to prevent render blocking - use media="print" trick */}
         <link rel="preload" href="/globals.css" as="style" />
-        <link
-          rel="stylesheet"
-          href="/globals.css"
-          media="print"
-          onLoad={`this.media='all'; this.onload=null;`}
+        <link rel="stylesheet" href="/globals.css" media="print" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              const link = document.querySelector('link[media="print"]');
+              if (link) {
+                link.media = 'all';
+                link.onload = null;
+              }
+            `,
+          }}
         />
         <noscript><link rel="stylesheet" href="/globals.css" /></noscript>
         
