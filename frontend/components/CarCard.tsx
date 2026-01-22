@@ -109,6 +109,7 @@ const CarCard = ({ car }: CarCardProps) => {
         <div className="absolute top-4 right-4 flex flex-col gap-2">
           <button
             onClick={() => setIsLiked(!isLiked)}
+            aria-label={isLiked ? "Unlike this car" : "Like this car"}
             className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
           >
             <Heart 
@@ -118,6 +119,7 @@ const CarCard = ({ car }: CarCardProps) => {
           <div className="relative">
             <button 
               onClick={() => setShowShareMenu(!showShareMenu)}
+              aria-label="Share this car"
               className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
             >
               <Share2 className="h-5 w-5 text-gray-600" />
