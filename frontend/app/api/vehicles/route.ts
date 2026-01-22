@@ -8,7 +8,7 @@ const DATA_FILE = path.join(DATA_DIR, 'vehicles.json')
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads')
 
 // Image compression settings - optimized for web
-const IMAGE_QUALITY = 65 // JPEG quality (lower = smaller file, 65-70 is good balance)
+const IMAGE_QUALITY = 75 // WebP quality (75-80 is good balance for WebP)
 const MAX_WIDTH = 1600 // Reduced from 1920
 const MAX_HEIGHT = 900  // Reduced from 1080
 const MAX_FILE_SIZE = 3 * 1024 * 1024 // 3MB max per image
@@ -22,7 +22,7 @@ function generateSeoFilename(title: string, make: string, model: string, year: n
   if (model) parts.push(model.toLowerCase().replace(/\s+/g, '-'))
   
   const baseName = parts.length > 0 ? parts.join('-') : 'vehicle'
-  return `${baseName}-${idx}.jpg`
+  return `${baseName}-${idx}.webp`
 }
 
 function ensureStorage() {
@@ -35,23 +35,24 @@ async function compressImage(buffer: Buffer, filename: string): Promise<string> 
   try {
     const outputPath = path.join(UPLOAD_DIR, filename)
     
-    // Aggressive compression with quality settings
+    // Convert to WebP with compression
     await sharp(buffer)
       .resize(MAX_WIDTH, MAX_HEIGHT, {
         fit: 'inside',
         withoutEnlargement: true
       })
       .rotate() // Auto-rotate based on EXIF
-      .jpeg({ 
-        quality: IMAGE_QUALITY, 
-        mozjpeg: true,
-        progressive: true,
-        force: true
+      .webp({ 
+        quality: IMAGE_QUALITY,
+        alphaQuality: IMAGE_QUALITY,
+        lossless: false,
+        nearLossless: false,
+        smartSubsample: true
       })
       .toFile(outputPath)
     
     const stats = fs.statSync(outputPath)
-    console.log(`Image compressed: ${filename} - ${(stats.size / 1024 / 1024).toFixed(2)}MB`)
+    console.log(`Image converted to WebP: ${filename} - ${(stats.size / 1024 / 1024).toFixed(2)}MB`)
     
     // Warn if still too large
     if (stats.size > MAX_FILE_SIZE) {
@@ -61,10 +62,19 @@ async function compressImage(buffer: Buffer, filename: string): Promise<string> 
     return `/uploads/${filename}`
   } catch (error) {
     console.error('Image compression error:', error)
-    // Fallback: save original if compression fails
-    const outputPath = path.join(UPLOAD_DIR, filename)
-    fs.writeFileSync(outputPath, buffer)
-    return `/uploads/${filename}`
+    // Fallback: save as WebP with lower quality if compression fails
+    try {
+      const outputPath = path.join(UPLOAD_DIR, filename)
+      await sharp(buffer)
+        .webp({ quality: 60 })
+        .toFile(outputPath)
+      return `/uploads/${filename}`
+    } catch {
+      // Last resort: save original
+      const outputPath = path.join(UPLOAD_DIR, filename)
+      fs.writeFileSync(outputPath, buffer)
+      return `/uploads/${filename}`
+    }
   }
 }
 
@@ -122,7 +132,7 @@ export async function POST(req: Request) {
     
     // Generate SEO-friendly base filename
     const seoBase = generateSeoFilename(body.title, body.make, body.model, body.year, 0)
-    const seoBaseName = seoBase.replace('-0.jpg', '')
+    const seoBaseName = seoBase.replace('-0.webp', '')
 
     // Handle multipart/form-data files
     if (body.images && Array.isArray(body.images) && body.images.length > 0) {
@@ -134,7 +144,7 @@ export async function POST(req: Request) {
         if (file && (typeof file.arrayBuffer === 'function' || file.stream)) {
           try {
             const buffer = await file.arrayBuffer()
-            const filename = `${seoBaseName}-${idx}.jpg`
+            const filename = `${seoBaseName}-${idx}.webp`
             const savedPath = await compressImage(Buffer.from(buffer), filename)
             images.push(savedPath)
           } catch (err) {
@@ -158,7 +168,7 @@ export async function POST(req: Request) {
         }
         
         const buffer = Buffer.from(b64, 'base64')
-        const filename = `${seoBaseName}-${idx}.jpg`
+        const filename = `${seoBaseName}-${idx}.webp`
         const savedPath = await compressImage(buffer, filename)
         images.push(savedPath)
       }
@@ -172,7 +182,7 @@ export async function POST(req: Request) {
       }
       
       const buffer = Buffer.from(b64, 'base64')
-      const filename = `${seoBaseName}.jpg`
+      const filename = `${seoBaseName}.webp`
       imagePath = await compressImage(buffer, filename)
       images.push(imagePath)
     }
@@ -233,7 +243,7 @@ export async function PUT(req: Request) {
     
     // Generate SEO-friendly base filename for updates
     const seoBase = generateSeoFilename(body.title || existing.title, body.make || existing.make, body.model || existing.model, body.year || existing.year, 0)
-    const seoBaseName = seoBase.replace('-0.jpg', '')
+    const seoBaseName = seoBase.replace('-0.webp', '')
 
     // Handle new images if provided with compression
     if (Array.isArray(body.imagesBase64) && body.imagesBase64.length > 0) {
@@ -250,7 +260,7 @@ export async function PUT(req: Request) {
         }
         
         const buffer = Buffer.from(b64, 'base64')
-        const filename = `${seoBaseName}-${idx}.jpg`
+        const filename = `${seoBaseName}-${idx}.webp`
         
         // Compress and save image
         const savedPath = await compressImage(buffer, filename)

@@ -8,7 +8,7 @@ const DATA_FILE = path.join(DATA_DIR, 'blogs.json')
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads')
 
 // Image compression settings
-const IMAGE_QUALITY = 80
+const IMAGE_QUALITY = 75
 const MAX_WIDTH = 1920
 const MAX_HEIGHT = 1080
 
@@ -20,16 +20,22 @@ async function compressImage(buffer: Buffer, filename: string): Promise<string> 
         fit: 'inside',
         withoutEnlargement: true,
       })
-      .jpeg({ quality: IMAGE_QUALITY, mozjpeg: true })
+      .webp({ quality: IMAGE_QUALITY, alphaQuality: IMAGE_QUALITY })
       .toFile(filePath)
     
     return `/uploads/${filename}`
   } catch (error) {
     console.error('Image compression failed:', error)
-    // Fallback: save original
-    const filePath = path.join(UPLOAD_DIR, filename)
-    fs.writeFileSync(filePath, buffer)
-    return `/uploads/${filename}`
+    // Fallback: save as WebP with lower quality
+    try {
+      const filePath = path.join(UPLOAD_DIR, filename)
+      await sharp(buffer).webp({ quality: 60 }).toFile(filePath)
+      return `/uploads/${filename}`
+    } catch {
+      const filePath = path.join(UPLOAD_DIR, filename)
+      fs.writeFileSync(filePath, buffer)
+      return `/uploads/${filename}`
+    }
   }
 }
 
@@ -67,7 +73,7 @@ export async function PUT(
       }
       
       const buffer = Buffer.from(b64, 'base64')
-      const filename = `${id}.jpg`
+      const filename = `${id}.webp`
       
       // Remove old image if it exists
       if (existing.image) {
