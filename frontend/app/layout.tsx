@@ -135,6 +135,16 @@ export default function RootLayout({
           * { box-sizing: border-box; }
         `}</style>
         
+        {/* Load full CSS asynchronously to prevent render blocking on mobile */}
+        <link rel="preload" href="/globals.css" as="style" />
+        <link
+          rel="stylesheet"
+          href="/globals.css"
+          media="print"
+          onLoad={`this.media='all'; this.onload=null;`}
+        />
+        <noscript><link rel="stylesheet" href="/globals.css" /></noscript>
+        
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
