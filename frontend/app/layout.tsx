@@ -127,6 +127,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        
+        {/* Critical CSS inline to prevent layout shift */}
+        <style>{`
+          html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+          body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; background: #fff; color: #111; }
+          * { box-sizing: border-box; }
+        `}</style>
+        
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -150,6 +158,21 @@ export default function RootLayout({
           <Footer />
           <WhatsAppButton />
         </div>
+        
+        {/* Ensure all CSS is loaded before interactive features */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                  document.documentElement.classList.add('fonts-loaded');
+                });
+              } else {
+                document.documentElement.classList.add('fonts-loaded');
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   )
