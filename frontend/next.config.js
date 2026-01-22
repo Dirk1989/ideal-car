@@ -4,14 +4,11 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   swcMinify: true,
-  // Target modern browsers only - reduces polyfills and transpilation
-  // Removes unnecessary Array.flat, Object.fromEntries, String.trimStart/trimEnd polyfills
-  swcMinify: true,
+  // Target modern browsers only - .browserslistrc controls transpilation
+  // Removes unnecessary polyfills for Array.flat, Object.fromEntries, etc.
   compiler: {
     // Remove console logs in production
     removeConsole: process.env.NODE_ENV === 'production',
-    // Target ES2020 - no polyfills needed for modern features
-    es2020: true,
   },
   images: {
     domains: ['localhost'],

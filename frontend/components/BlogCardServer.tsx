@@ -46,7 +46,8 @@ export default function BlogCardServer({ post }: BlogCardProps) {
         <h3 className="text-xl font-bold mb-3 line-clamp-2">{post.title}</h3>
         <p className="text-gray-600 mb-6 line-clamp-3">{post.excerpt}</p>
 
-        <a href={getBlogUrl(post)} className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold" aria-label={`Read ${post.title}`}>
+        <a href={getBlogUrl(post)} className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold" title={post.title}>
+          <span className="sr-only">Read more about: </span>
           Read More
         </a>
       </div>
