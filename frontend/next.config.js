@@ -4,6 +4,7 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   swcMinify: true,
+  trailingSlash: false,
   // Target modern browsers only - .browserslistrc controls transpilation
   // Removes unnecessary polyfills for Array.flat, Object.fromEntries, etc.
   compiler: {
